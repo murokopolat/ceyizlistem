@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>İnteraktif Çeyiz Listesi</title>
+    <title>Çeyiz Listem</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -82,7 +82,7 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-emerald-700">İnteraktif Çeyiz Listesi</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-emerald-700">Çeyiz Listem</h1>
             <p class="mt-2 text-lg text-gray-600">Çeyiz hazırlık sürecini kolayca yönet ve ilerlemeni takip et.</p>
         </header>
 
@@ -104,6 +104,17 @@
                         <div class="bg-amber-50 p-4 rounded-lg">
                             <h3 class="text-lg font-semibold text-amber-600">Kalan</h3>
                             <p id="remaining-items" class="text-2xl font-bold text-amber-600">0</p>
+                        </div>
+                        <div class="bg-blue-50 p-4 rounded-lg col-span-1 sm:col-span-3">
+                            <h3 class="text-lg font-semibold text-gray-500">Harcanan Toplam Tutar</h3>
+                            <p id="total-spent" class="text-2xl font-bold text-blue-600">0,00 TL</p>
+                        </div>
+                        <div class="bg-purple-50 p-4 rounded-lg col-span-1 sm:col-span-3">
+                            <h3 class="text-lg font-semibold text-gray-500">Kalan Bütçe</h3>
+                            <p id="remaining-budget" class="text-2xl font-bold text-purple-600">0,00 TL</p>
+                            <button id="set-budget-btn" class="mt-2 bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-3 rounded-full text-xs transition-colors duration-200">
+                                Bütçe Belirle
+                            </button>
                         </div>
                         <div class="sm:col-span-3 mt-4">
                             <div class="w-full bg-gray-200 rounded-full h-4">
@@ -294,6 +305,7 @@
                     <h3 class="text-xl font-bold mb-4 text-gray-800">Alınan Ürünler</h3>
                     <div id="purchasedItemsList" class="text-gray-700 max-h-80 overflow-y-auto">
                         <ul class="list-disc pl-5 space-y-1"></ul>
+                        <p class="mt-4 font-bold">Toplam Tutar: <span id="purchased-total-price">0,00 TL</span></p>
                     </div>
                 </div>
             </div>
@@ -305,6 +317,7 @@
                     <h3 class="text-xl font-bold mb-4 text-gray-800">Kalan Ürünler</h3>
                     <div id="remainingItemsList" class="text-gray-700 max-h-80 overflow-y-auto">
                         <ul class="list-disc pl-5 space-y-1"></ul>
+                        <p class="mt-4 font-bold">Tahmini Kalan Tutar: <span id="remaining-total-price">0,00 TL</span></p>
                     </div>
                 </div>
             </div>
@@ -319,6 +332,23 @@
                             Tamam
                         </button>
                     </div>
+                </div>
+            </div>
+
+            <!-- Bütçe Ayarları Modalı -->
+            <div id="budgetSettingsModal" class="modal">
+                <div class="modal-content">
+                    <span class="close-button" id="closeBudgetSettingsModalBtn">&times;</span>
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Bütçe Ayarları</h3>
+                    <form id="budgetSettingsForm" class="space-y-4">
+                        <div>
+                            <label for="totalBudget" class="block text-sm font-medium text-gray-700">Toplam Bütçe (TL)</label>
+                            <input type="text" id="totalBudget" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-purple-500 focus:border-purple-500" placeholder="Örn: 50000" inputmode="numeric">
+                        </div>
+                        <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                            Bütçeyi Kaydet
+                        </button>
+                    </form>
                 </div>
             </div>
 
@@ -612,7 +642,7 @@
                     { cat: 'Dekorasyon', name: 'Mum Seti (Banyo)', qty: 'Set', notes: 'Ortam atmosferi için', productLink: '', productPrice: '', productBrand: '', tips: 'Banyoda rahatlatıcı ve spa benzeri bir atmosfer yaratır. Farklı koku ve boyutlarda mumlar seçebilirsiniz. Güvenli kullanım için mumları gözetimsiz bırakmayın.' },
                     { cat: 'Dekorasyon', name: 'Bitkiler (Banyo)', qty: '1 adet', notes: 'Yapay veya banyo ortamına uygun canlı bitki', productLink: '', productPrice: '', productBrand: '', tips: 'Banyonuza doğal bir dokunuş katar ve havayı temizler. Nemli ortamları seven canlı bitkiler veya gerçekçi yapay bitkiler tercih edilebilir. Banyo dekorasyonunuza uygun saksılar seçin.' },
                 ],
-                'Genel Ev': [
+                'Genel': [
                     { cat: 'Temizlik', name: 'Temizlik Kovası ve Mop Seti', qty: '1 adet', notes: 'Kolay kullanımlı', productLink: '', productPrice: '', productBrand: '', tips: 'Zemin temizliği için pratik bir settir. Kovasının tekerlekli ve su sıkma mekanizmalı olması önemlidir. Mikrofiber mop başlıkları daha etkili temizlik sağlar.' },
                     { cat: 'Temizlik', name: 'Süpürge ve Faraş Seti', qty: '1 adet', notes: 'Pratik ve hafif', productLink: '', productPrice: '', productBrand: '', tips: 'Hızlı ve pratik zemin temizliği için idealdir. Hafif ve ergonomik bir süpürge seçin. Faraş kenarının zemine iyi oturması ve tozu kolayca toplaması önemlidir.' },
                     { cat: 'Temizlik', name: 'Temizlik Bezleri', qty: 'Çeşitli', notes: 'Mikrofiber, cam bezi, bulaşık bezi', productLink: '', productPrice: '', productBrand: '', tips: 'Farklı yüzeyler için özel temizlik bezleri bulundurun. Genel temizlik için mikrofiber, cam yüzeyler için cam bezleri idealdir. Sık sık yıkayarak hijyeni sağlayın.' },
@@ -654,6 +684,7 @@
             };
 
             let state = {}; // Ürün satın alma durumu
+            let totalBudget = 0; // Kullanıcı tarafından belirlenen toplam bütçe
             let confirmationCallback = null; // Onay modalı için callback fonksiyonu
             let editingItem = { category: null, index: null }; // Düzenlenen ürünü takip etmek için
 
@@ -662,6 +693,8 @@
             const totalItemsEl = document.getElementById('total-items');
             const purchasedItemsEl = document.getElementById('purchased-items');
             const remainingItemsEl = document.getElementById('remaining-items');
+            const totalSpentEl = document.getElementById('total-spent'); // Yeni element
+            const remainingBudgetEl = document.getElementById('remaining-budget'); // Yeni element
             const progressBarEl = document.getElementById('progress-bar');
             const progressTextEl = document.getElementById('progress-text');
             const chartCanvas = document.getElementById('progress-chart').getContext('2d');
@@ -672,12 +705,23 @@
             function initializeState() {
                 const savedCeyizData = JSON.parse(localStorage.getItem('ceyizData'));
                 const savedState = JSON.parse(localStorage.getItem('ceyizState'));
+                const savedTotalBudget = localStorage.getItem('totalBudget');
 
                 if (savedCeyizData) {
+                    // 'Genel Ev'i 'Genel' olarak güncelle
+                    if (savedCeyizData['Genel Ev']) {
+                        savedCeyizData['Genel'] = savedCeyizData['Genel Ev'];
+                        delete savedCeyizData['Genel Ev'];
+                    }
                     ceyizData = savedCeyizData;
                 }
 
                 if (savedState) {
+                    // 'Genel Ev'i 'Genel' olarak güncelle
+                    if (savedState['Genel Ev']) {
+                        savedState['Genel'] = savedState['Genel Ev'];
+                        delete savedState['Genel Ev'];
+                    }
                     state = savedState;
                 } else {
                     // Kaydedilmiş durum yoksa, tüm öğeleri satın alınmamış olarak başlat
@@ -688,6 +732,11 @@
                         });
                     });
                 }
+
+                if (savedTotalBudget) {
+                    totalBudget = parseFloat(savedTotalBudget);
+                }
+
                 // Durumun, durum güncellemesi olmadan yeni öğeler eklendiğinde veya kaldırıldığında geçerli ceyizData ile eşleştiğinden emin olun
                 Object.keys(ceyizData).forEach(category => {
                     if (!state[category]) {
@@ -717,6 +766,7 @@
             function saveData() {
                 localStorage.setItem('ceyizData', JSON.stringify(ceyizData));
                 localStorage.setItem('ceyizState', JSON.stringify(state));
+                localStorage.setItem('totalBudget', totalBudget.toString());
             }
 
             // CeyizData'yı alt kategoriye göre ve ardından ürün adına göre alfabetik olarak sırala
@@ -960,6 +1010,7 @@
             function updateDashboard() {
                 let total = 0;
                 let purchased = 0;
+                let totalSpent = 0; // Yeni: Toplam harcanan tutar
                 const categoryTotals = {};
                 const categoryPurchased = {};
 
@@ -972,16 +1023,22 @@
                         if (state[category] && state[category][index]) {
                             purchased++;
                             categoryPurchased[category]++;
+                            if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
+                                totalSpent += item.productPrice;
+                            }
                         }
                     });
                 });
 
                 const remaining = total - purchased;
                 const progress = total > 0 ? (purchased / total) * 100 : 0;
+                const remainingBudget = totalBudget - totalSpent; // Kalan bütçe
 
                 totalItemsEl.textContent = total;
                 purchasedItemsEl.textContent = purchased;
                 remainingItemsEl.textContent = remaining;
+                totalSpentEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalSpent);
+                remainingBudgetEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(remainingBudget);
                 progressBarEl.style.width = `${progress}%`;
                 progressTextEl.textContent = `Tamamlanma Oranı: ${progress.toFixed(1)}%`;
 
@@ -1369,7 +1426,8 @@
                 const searchPlatforms = [
                     { name: 'Hepsiburada', url: `https://www.hepsiburada.com/ara?q=${encodedProductName}` },
                     { name: 'Trendyol', url: `https://www.trendyol.com/sr?q=${encodedProductName}` },
-                    { name: 'N11', url: `https://www.n11.com/arama?q=${encodedProductName}` }
+                    { name: 'N11', url: `https://www.n11.com/arama?q=${encodedProductName}` },
+                    { name: 'Amazon', url: `https://www.amazon.com.tr/s?k=${encodedProductName}` }
                 ];
 
                 searchPlatforms.forEach(platform => {
@@ -1433,8 +1491,10 @@
             // Satın alınan öğeler modalını göster
             function showPurchasedItemsModal() {
                 const purchasedItemsListUl = document.querySelector('#purchasedItemsList ul');
+                const purchasedTotalPriceEl = document.getElementById('purchased-total-price');
                 purchasedItemsListUl.innerHTML = ''; // Listeyi temizle
                 let count = 0;
+                let currentPurchasedTotalPrice = 0; // Toplam satın alınan ürün fiyatı
 
                 Object.keys(ceyizData).forEach(category => {
                     ceyizData[category].forEach((item, index) => {
@@ -1443,6 +1503,9 @@
                             li.textContent = `${item.name} (${category} - ${item.cat})`;
                             purchasedItemsListUl.appendChild(li);
                             count++;
+                            if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
+                                currentPurchasedTotalPrice += item.productPrice;
+                            }
                         }
                     });
                 });
@@ -1452,6 +1515,7 @@
                     li.textContent = 'Henüz alınmış ürün bulunmamaktadır.';
                     purchasedItemsListUl.appendChild(li);
                 }
+                purchasedTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(currentPurchasedTotalPrice);
 
                 document.getElementById('purchasedItemsModal').style.display = 'flex';
             }
@@ -1459,8 +1523,10 @@
             // Kalan öğeler modalını göster
             function showRemainingItemsModal() {
                 const remainingItemsListUl = document.querySelector('#remainingItemsList ul');
+                const remainingTotalPriceEl = document.getElementById('remaining-total-price');
                 remainingItemsListUl.innerHTML = ''; // Listeyi temizle
                 let count = 0;
+                let currentRemainingTotalPrice = 0; // Toplam kalan ürün fiyatı
 
                 Object.keys(ceyizData).forEach(category => {
                     ceyizData[category].forEach((item, index) => {
@@ -1469,6 +1535,9 @@
                             li.textContent = `${item.name} (${category} - ${item.cat})`;
                             remainingItemsListUl.appendChild(li);
                             count++;
+                            if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
+                                currentRemainingTotalPrice += item.productPrice;
+                            }
                         }
                     });
                 });
@@ -1478,6 +1547,8 @@
                     li.textContent = 'Tüm ürünler alınmıştır, tebrikler!';
                     remainingItemsListUl.appendChild(li);
                 }
+                remainingTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(currentRemainingTotalPrice);
+
 
                 document.getElementById('remainingItemsModal').style.display = 'flex';
             }
@@ -1523,7 +1594,8 @@
             function backupData() {
                 const dataToSave = {
                     ceyizData: ceyizData,
-                    ceyizState: state
+                    ceyizState: state,
+                    totalBudget: totalBudget // Bütçe bilgisini de yedekle
                 };
                 const jsonString = JSON.stringify(dataToSave, null, 2);
                 const blob = new Blob([jsonString], { type: 'application/json' });
@@ -1560,6 +1632,19 @@
                                 () => {
                                     ceyizData = loadedData.ceyizData;
                                     state = loadedData.ceyizState;
+                                    // Handle category name change during restore
+                                    if (ceyizData['Genel Ev']) {
+                                        ceyizData['Genel'] = ceyizData['Genel Ev'];
+                                        delete ceyizData['Genel Ev'];
+                                    }
+                                    if (state['Genel Ev']) {
+                                        state['Genel'] = state['Genel Ev'];
+                                        delete state['Genel Ev'];
+                                    }
+
+                                    // Bütçe bilgisini geri yükle
+                                    totalBudget = loadedData.totalBudget !== undefined ? loadedData.totalBudget : 0;
+
                                     sortCeyizData(); // Yüklenen verileri sırala
                                     saveData(); // Yüklenen verileri localStorage'a kaydet
                                     initializeState(); // Tutarlılık için durumu yeniden başlat
@@ -1647,6 +1732,31 @@
                 });
             });
 
+            // Bütçe Ayarları Modalını Aç
+            function openBudgetSettingsModal() {
+                document.getElementById('totalBudget').value = totalBudget > 0 ? new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(totalBudget) : '';
+                document.getElementById('budgetSettingsModal').style.display = 'flex';
+            }
+
+            // Bütçe Ayarları Modalını Kapat
+            function closeBudgetSettingsModal() {
+                document.getElementById('budgetSettingsModal').style.display = 'none';
+            }
+
+            // Bütçe Ayarları Form Gönderimi
+            document.getElementById('budgetSettingsForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                let budgetValue = document.getElementById('totalBudget').value.trim();
+                budgetValue = budgetValue.replace(/[^0-9]/g, ''); // Sayısal olmayan karakterleri kaldır
+                totalBudget = budgetValue === '' ? 0 : parseFloat(budgetValue);
+                
+                saveData();
+                updateDashboard();
+                closeBudgetSettingsModal();
+                showMessageModal('Bütçe Kaydedildi', `Toplam bütçeniz ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalBudget)} olarak ayarlandı.`, null);
+            });
+
+
             // İlk kurulum işlevi
             function init() {
                 initializeState();
@@ -1669,6 +1779,7 @@
                 // Para birimi girişini biçimlendirmek için olay dinleyicileri ekle
                 document.getElementById('newProductPrice').addEventListener('input', formatCurrencyInput);
                 document.getElementById('editProductPrice').addEventListener('input', formatCurrencyInput);
+                document.getElementById('totalBudget').addEventListener('input', formatCurrencyInput); // Yeni: Bütçe girişi için
 
                 // Arama girişi için olay dinleyicisi ekle
                 document.getElementById('searchInput').addEventListener('input', filterItems);
@@ -1676,10 +1787,12 @@
                 // Gösterge panelindeki "Alınan" ve "Kalan" öğeler için tıklama olay dinleyicileri ekle
                 document.getElementById('purchased-items').addEventListener('click', showPurchasedItemsModal);
                 document.getElementById('remaining-items').addEventListener('click', showRemainingItemsModal);
+                document.getElementById('set-budget-btn').addEventListener('click', openBudgetSettingsModal); // Yeni: Bütçe belirleme düğmesi
 
                 // Modal kapatma düğmeleri ekle
                 document.getElementById('closePurchasedItemsModalBtn').addEventListener('click', closePurchasedItemsModal);
                 document.getElementById('closeRemainingItemsModalBtn').addEventListener('click', closeRemainingItemsModal);
+                document.getElementById('closeBudgetSettingsModalBtn').addEventListener('click', closeBudgetSettingsModal); // Yeni: Bütçe ayarları modalı kapatma
                 
                 // Yedekleme ve geri yükleme düğmeleri için olay dinleyicileri ekle
                 document.getElementById('backupDataBtn').addEventListener('click', backupData);
