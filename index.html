@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Çeyiz Listem</title>
+    <title>İnteraktif Çeyiz Listesi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- QRious Kütüphanesi Kaldırıldı -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -15,7 +17,7 @@
         - Rapor Bilgisi: Genel ilerleme istatistikleri. Amaç: Bilgi. Görselleştirme/Yöntem: Dinamik istatistik kartları (HTML/CSS/JS). Etkileşim: Bir öğe işaretlendiğinde otomatik olarak güncellenir. Gerekçe: Motive edici, hızlı bir genel bakış sağlar.
         - Rapor Bilgisi: Ana kategoriye göre ilerleme dökümü. Amaç: Karşılaştırma. Görselleştirme/Yöntem: Donut Grafik (Chart.js/Canvas). Etkileşim: Detayları göstermek için üzerine gelme ipuçları. Gerekçe: Evin farklı alanlarındaki tamamlama seviyelerini görsel olarak karşılaştırır.
         - Rapor Bilgisi: Kategoriye göre detaylı ürün listeleri. Amaç: Yönetim/Etkileşim. Görselleştirme/Yöntem: İnteraktif tablolar (HTML/Tailwind). Etkileşim: Öğeleri tamamlandı olarak işaretlemek için onay kutuları, satırı görsel olarak çizmek ve gösterge paneli güncellemelerini tetiklemek. Gerekçe: Liste yönetimi için temel işlevsellik, net yapı ve doğrudan manipülasyon sağlar.
-        - Rapor Bilgisi: Kategoriye göre ürün önerileri (LLM). Amaç: Bilgi/Beyin Fırtınası. Görselleştirme/Yöntem: Daraltılabilir bir bölümde metin çıktısı. Etkileşim: Yeni öneriler oluşturmak için düğmeye tıklayın. Gerekçe: Yapay zeka destekli fikirlerle liste oluşturmayı geliştirir.
+        - Rapor Bilgisi: Ürün önerileri (LLM). Amaç: Bilgi/Beyin Fırtınası. Görselleştirme/Yöntem: Daraltılabilir bir bölümde metin çıktısı. Etkileşim: Yeni öneriler oluşturmak için düğmeye tıklayın. Gerekçe: Yapay zeka destekli fikirlerle liste oluşturmayı geliştirir.
         - Rapor Bilgisi: Her ürün için ürün bilgileri/ipuçları (LLM). Amaç: Bilgi. Görselleştirme/Yöntem: Modal benzeri bir ekranda metin çıktısı. Etkileşim: Belirli bir ürün için ayrıntı almak için düğmeye tıklayın. Gerekçe: Satın alma kararları için pratik rehberlik sağlar.
         - Rapor Bilgisi: Listeye yeni ürünler ekleme. Amaç: Yönetim. Görselleştirme/Yöntem: Modal form (HTML/Tailwind/JS). Etkileşim: Kullanıcı ayrıntıları girer, mevcut kategoriye eklemek için 'Ekle'ye tıklar. Gerekçe: Kullanıcının listesini doğrudan uygulama içinde özelleştirmesine ve genişletmesine olanak tanır.
         - Rapor Bilgisi: Listeden ürünleri kaldırma. Amaç: Yönetim. Görselleştirme/Yöntem: Her ürün için satır içi silme düğmesi (HTML/Tailwind/JS). Etkileşim: Kullanıcı onaydan sonra ürünü kaldırmak için 'Sil'e tıklar. Gerekçe: Liste içeriği üzerinde doğrudan kontrol sağlar.
@@ -82,7 +84,7 @@
     <div class="container mx-auto p-4 sm:p-6 lg:p-8">
         
         <header class="text-center mb-8">
-            <h1 class="text-3xl sm:text-4xl font-bold text-emerald-700">Çeyiz Listem</h1>
+            <h1 class="text-3xl sm:text-4xl font-bold text-emerald-700">İnteraktif Çeyiz Listesi</h1>
             <p class="mt-2 text-lg text-gray-600">Çeyiz hazırlık sürecini kolayca yönet ve ilerlemeni takip et.</p>
         </header>
 
@@ -152,7 +154,7 @@
                     <input type="text" id="searchInput" placeholder="Ürün ara..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-600">
                 </div>
 
-                <!-- Yedekle/Geri Yükle Butonları -->
+                <!-- Yedekle/Geri Yükle ve Paylaş Butonları -->
                 <div class="flex justify-center gap-4 mb-6">
                     <button id="backupDataBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
                         Yedekle (JSON İndir)
@@ -161,6 +163,9 @@
                         Yedekten Yükle
                     </button>
                     <input type="file" id="restoreFileInput" accept=".json" class="hidden">
+                    <button id="shareListBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                        Listeyi Paylaş (Link) <!-- QR Kod yerine Link -->
+                    </button>
                 </div>
 
                 <div id="category-content">
@@ -352,12 +357,29 @@
                 </div>
             </div>
 
+            <!-- Paylaşım Modalı (QR Kod yerine sadece Link) -->
+            <div id="shareListModal" class="modal">
+                <div class="modal-content text-center">
+                    <span class="close-button" id="closeShareListModalBtn">&times;</span>
+                    <h3 class="text-xl font-bold mb-4 text-gray-800">Listenizi Paylaşın</h3>
+                    <p class="mb-4 text-gray-700">Aşağıdaki linki kopyalayarak çeyiz listenizi başkalarıyla paylaşabilirsiniz.</p>
+                    <!-- QR kodu canvas'ı kaldırıldı -->
+                    <div class="flex flex-col gap-3">
+                        <input type="text" id="shareableLinkInput" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" readonly>
+                        <button id="copyLinkBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
+                            Linki Kopyala
+                        </button>
+                        <!-- QR Kodu İndir butonu kaldırıldı -->
+                    </div>
+                </div>
+            </div>
+
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // İlk çeyiz verileri.
+            // Initial ceyiz data.
             let ceyizData = {
                 'Mutfak': [
                     // Tencere & Tava
@@ -367,7 +389,7 @@
                     { cat: 'Tencere & Tava', name: 'Emaye Tencere Seti', qty: 'Set', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Emaye tencereler, sağlıklı ve şık görünümleriyle bilinir. Asitli yiyeceklerle kullanıma uygundur. Düşme ve darbelere karşı hassas olabilir, emaye tabakasının çatlamamasına dikkat edin.' },
                     { cat: 'Tencere & Tava', name: 'Yumurta Haşlama Tenceresi', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Küçük ve pratik bir üründür. Yumurtaları hızlıca haşlamak için idealdir. Su seviyesine dikkat edin, taşmayı önlemek için doğru miktarda su kullanın.' },
                     { cat: 'Tencere & Tava', name: 'Sütlük', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Süt kaynatmak veya küçük soslar hazırlamak için kullanılır. Yüksek kenarlı olanları tercih ederek dökülmeleri önleyebilirsiniz. Paslanmaz çelik modeller daha dayanıklıdır.' },
-                    { cat: 'Tencere & Tava', name: 'Döküm Tencere', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Döküm tencereler ısıyı çok iyi muhafaza eder ve yavaş pişirme için idealdir. Ağırdırlar, bu yüzden dikkatli kullanılmalı ve ilk kullanımdan önce yağlanmalıdır.' },
+                    { cat: 'Tencere & Tava', name: 'Döküm Tencere', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Döküm tencereleR ısıyı çok iyi muhafaza eder ve yavaş pişirme için idealdir. Ağırdırlar, bu yüzden dikkatli kullanılmalı ve ilk kullanımdan önce yağlanmalıdır.' },
                     { cat: 'Tencere & Tava', name: 'Kızartma Tenceresi', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Derin yağda kızartmalar için idealdir. Sıçramaları önlemek için kapaklı veya özel sıçrama koruyuculu modelleri tercih edin. Yağ sıcaklığını doğru ayarlamak önemlidir.' },
                     { cat: 'Tencere & Tava', name: 'Krep/Pankek Tavası', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Düz ve kenarsız yapısı krep ve pankek pişirmeyi kolaylaştırır. Yapışmaz modeller işinizi daha da basitleştirir. İlk kullanımdan önce hafifçe yağlamak faydalı olabilir.' },
                     { cat: 'Tencere & Tava', name: 'Wok Tava', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Asya mutfağı ve hızlı soteleme için idealdir. Isıyı hızlı ve eşit bir şekilde dağıtır. Güvenlik için yanmaz saplı modelleri tercih edin.' },
@@ -444,7 +466,7 @@
                     { cat: 'Saklama & Hazırlık', name: 'Çay Şeker Kahve Seti', qty: '1 set', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Mutfak tezgahınızda veya dolabınızda düzenli bir görünüm sağlar. Genellikle üç ayrı kapaktan oluşur. Seramik veya cam modeller mutfağınıza şıklık katar.' },
                     { cat: 'Saklama & Hazırlık', name: 'Kek Kalıbı Seti', qty: 'Set', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Farklı boyut ve şekillerde kek yapmak için kullanılır. Yapışmaz ve kolay temizlenebilir modelleri tercih edin. Silikon kalıplar daha esnek ve pratik olabilir.' },
                     { cat: 'Saklama & Hazırlık', name: 'Tuzluk Biberlik Seti', qty: '1 set', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Yemek masasının vazgeçilmez bir parçasıdır. Şık tasarımlar masa düzeninizi tamamlar. Doldurması ve temizlemesi kolay modelleri tercih edin.' },
-                    { cat: 'Saklama & Hazırlık', name: 'Cam Kavanozlar', qty: '12 Adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Kuru gıdalar, baharatlar veya ev yapımı konserveleri saklamak için idealdir. Hava geçirmez kapaklı modeller gıdaları taze tutar. Farklı boyutlarda setler alarak düzenleyebilirsiniz.' },
+                    { cat: 'Saklama & Hazırlık', name: 'Cam Kavanozlar', qty: '12 Adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Kuru gıdalar, baharatlar veya ev yapımı konserveleri saklamak için idealdir. Hava geçirmez kapaklı modeller gıdaların tazeliğini korur. Farklı boyutlarda setler alarak düzenleyebilirsiniz.' },
                     { cat: 'Saklama & Hazırlık', name: 'Kesme Tahtası', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Tezgahı korur ve yemek keserken hijyen sağlar. Ahşap veya bambu tahtalar bıçakların ömrünü uzatır. Farklı yiyecekler için ayrı tahtalar kullanmak hijyen açısından önemlidir.' },
                     { cat: 'Saklama & Hazırlık', name: 'Tepsiler', qty: 'Çeşitli', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Yiyecek veya içecek servisi için kullanılır. Farklı boyut ve malzemelerde tepsiler bulunur. Kaymaz yüzeyli modeller taşımayı kolaylaştırır.' },
                     { cat: 'Saklama & Hazırlık', name: 'Süzgeç', qty: '1 adet', notes: '', productLink: '', productPrice: '', productBrand: '', tips: 'Makarna, sebze veya meyveleri süzmek için kullanılır. Isıya dayanıklı paslanmaz çelik veya silikon modelleri tercih edin. Küçük delikli olanlar ince taneleri de süzebilir.' },
@@ -1756,11 +1778,108 @@
                 showMessageModal('Bütçe Kaydedildi', `Toplam bütçeniz ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalBudget)} olarak ayarlandı.`, null);
             });
 
+            // --- Liste Paylaşımı (Link) Fonksiyonları ---
+
+            // Paylaşım modalını aç ve paylaşılabilir linki oluştur
+            function openShareListModal() {
+                const listData = {
+                    ceyizData: ceyizData,
+                    ceyizState: state
+                };
+                const jsonString = JSON.stringify(listData);
+                // JSON verilerini Base64 encode et
+                const encodedData = btoa(unescape(encodeURIComponent(jsonString))); 
+                
+                // Mevcut URL'yi al ve üzerine `data` parametresi ekle
+                const shareableLink = `${window.location.origin}${window.location.pathname}?data=${encodedData}`;
+
+                document.getElementById('shareableLinkInput').value = shareableLink;
+                
+                // QR kodu oluşturma kodu kaldırıldı
+
+                document.getElementById('shareListModal').style.display = 'flex';
+            }
+
+            // Paylaşım modalını kapat
+            function closeShareListModal() {
+                document.getElementById('shareListModal').style.display = 'none';
+            }
+
+            // Paylaşılabilir linki panoya kopyala
+            document.getElementById('copyLinkBtn').addEventListener('click', () => {
+                const shareableLinkInput = document.getElementById('shareableLinkInput');
+                shareableLinkInput.select();
+                document.execCommand('copy'); // navigator.clipboard.writeText iFrame'lerde çalışmayabilir
+                showMessageModal('Kopyalandı', 'Liste linki panoya kopyalandı!', null);
+            });
+
+            // QR kodunu indir fonksiyonu kaldırıldı
+
+            // URL'deki `data` parametresini kontrol et ve verileri yükle
+            function loadDataFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const encodedData = urlParams.get('data');
+                if (encodedData) {
+                    try {
+                        const decodedString = decodeURIComponent(escape(atob(encodedData))); // Base64 decode
+                        const loadedData = JSON.parse(decodedString);
+                        if (loadedData.ceyizData && loadedData.ceyizState) {
+                            showConfirmationModal(
+                                'URL\'den bir çeyiz listesi yüklenecek. Mevcut verileriniz DEĞİŞTİRİLECEKTİR. Emin misiniz?',
+                                () => {
+                                    ceyizData = loadedData.ceyizData;
+                                    state = loadedData.ceyizState;
+                                    // Handle category name change during load
+                                    if (ceyizData['Genel Ev']) {
+                                        ceyizData['Genel'] = ceyizData['Genel Ev'];
+                                        delete ceyizData['Genel Ev'];
+                                    }
+                                    if (state['Genel Ev']) {
+                                        state['Genel'] = state['Genel Ev'];
+                                        delete state['Genel Ev'];
+                                    }
+
+                                    // Bütçe bilgisini de URL'den yüklenen veriye dahil edilebilir
+                                    // Şimdilik sadece kaydedilmiş localStorage bütçesini tutuyoruz
+                                    // Eğer URL'den bütçe de geliyorsa: totalBudget = loadedData.totalBudget !== undefined ? loadedData.totalBudget : totalBudget;
+                                    
+                                    sortCeyizData();
+                                    saveData(); // Yüklenen verileri localStorage'a kaydet
+                                    initializeState(); // Tutarlılık için durumu yeniden başlat
+                                    renderTabs();
+                                    if (!Object.keys(ceyizData).includes(currentCategory)) {
+                                        currentCategory = Object.keys(ceyizData)[0] || null;
+                                    }
+                                    if (currentCategory) {
+                                        renderContent(currentCategory);
+                                    } else {
+                                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
+                                    }
+                                    updateDashboard();
+                                    showMessageModal('Liste Yüklendi', 'Çeyiz listeniz paylaşılan linkten başarıyla yüklendi.', null);
+                                    // URL'deki veri parametresini temizle
+                                    history.pushState({}, '', window.location.pathname);
+                                }
+                            );
+                        } else {
+                            showMessageModal('Yükleme Hatası', 'URL\'den alınan veri geçerli bir çeyiz listesi formatında değil.', null);
+                        }
+                    } catch (error) {
+                        showMessageModal('Yükleme Hatası', `URL verisi okunamadı veya biçim hatası var: ${error.message}`, null);
+                        // URL'deki veri parametresini temizle
+                        history.pushState({}, '', window.location.pathname);
+                    }
+                }
+            }
+
 
             // İlk kurulum işlevi
             function init() {
                 initializeState();
                 sortCeyizData(); // İlk yüklemede verileri sırala
+                // URL'den veri yüklemeyi dene, eğer yoksa normal şekilde devam et
+                loadDataFromURL(); 
+                
                 renderTabs();
                 // ceyizData yüklendikten sonra currentCategory'nin geçerli olduğundan emin ol
                 if (!Object.keys(ceyizData).includes(currentCategory)) {
@@ -1797,6 +1916,10 @@
                 // Yedekleme ve geri yükleme düğmeleri için olay dinleyicileri ekle
                 document.getElementById('backupDataBtn').addEventListener('click', backupData);
                 document.getElementById('restoreDataBtn').addEventListener('click', restoreData);
+
+                // Paylaşım düğmesi için olay dinleyicisi ekle
+                document.getElementById('shareListBtn').addEventListener('click', openShareListModal);
+                document.getElementById('closeShareListModalBtn').addEventListener('click', closeShareListModal);
             }
 
             init();
