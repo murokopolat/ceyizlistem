@@ -123,7 +123,18 @@
 
             <div class="bg-white rounded-2xl shadow-lg p-6">
                 <nav id="category-tabs" class="flex flex-wrap gap-2 mb-6 justify-center">
+                    <!-- Kategori Sekmeleri Buraya Gelecek -->
                 </nav>
+
+                <!-- Kategori Yönetimi Butonları -->
+                <div class="flex flex-wrap gap-2 mb-6 justify-center">
+                    <button id="add-category-btn" class="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                        + Yeni Kategori Ekle
+                    </button>
+                    <button id="delete-category-btn" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                        Kategoriyi Sil
+                    </button>
+                </div>
 
                 <!-- Arama Çubuğu -->
                 <div class="mb-4">
@@ -142,6 +153,7 @@
                 </div>
 
                 <div id="category-content">
+                    <!-- Ürün Listeleri Buraya Gelecek -->
                 </div>
             </div>
 
@@ -315,7 +327,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Başlangıç çeyiz verileri.
+            // İlk çeyiz verileri.
             let ceyizData = {
                 'Mutfak': [
                     // Tencere & Tava
@@ -600,7 +612,7 @@
                     { cat: 'Dekorasyon', name: 'Mum Seti (Banyo)', qty: 'Set', notes: 'Ortam atmosferi için', productLink: '', productPrice: '', productBrand: '', tips: 'Banyoda rahatlatıcı ve spa benzeri bir atmosfer yaratır. Farklı koku ve boyutlarda mumlar seçebilirsiniz. Güvenli kullanım için mumları gözetimsiz bırakmayın.' },
                     { cat: 'Dekorasyon', name: 'Bitkiler (Banyo)', qty: '1 adet', notes: 'Yapay veya banyo ortamına uygun canlı bitki', productLink: '', productPrice: '', productBrand: '', tips: 'Banyonuza doğal bir dokunuş katar ve havayı temizler. Nemli ortamları seven canlı bitkiler veya gerçekçi yapay bitkiler tercih edilebilir. Banyo dekorasyonunuza uygun saksılar seçin.' },
                 ],
-                'Genel': [
+                'Genel Ev': [
                     { cat: 'Temizlik', name: 'Temizlik Kovası ve Mop Seti', qty: '1 adet', notes: 'Kolay kullanımlı', productLink: '', productPrice: '', productBrand: '', tips: 'Zemin temizliği için pratik bir settir. Kovasının tekerlekli ve su sıkma mekanizmalı olması önemlidir. Mikrofiber mop başlıkları daha etkili temizlik sağlar.' },
                     { cat: 'Temizlik', name: 'Süpürge ve Faraş Seti', qty: '1 adet', notes: 'Pratik ve hafif', productLink: '', productPrice: '', productBrand: '', tips: 'Hızlı ve pratik zemin temizliği için idealdir. Hafif ve ergonomik bir süpürge seçin. Faraş kenarının zemine iyi oturması ve tozu kolayca toplaması önemlidir.' },
                     { cat: 'Temizlik', name: 'Temizlik Bezleri', qty: 'Çeşitli', notes: 'Mikrofiber, cam bezi, bulaşık bezi', productLink: '', productPrice: '', productBrand: '', tips: 'Farklı yüzeyler için özel temizlik bezleri bulundurun. Genel temizlik için mikrofiber, cam yüzeyler için cam bezleri idealdir. Sık sık yıkayarak hijyeni sağlayın.' },
@@ -641,7 +653,9 @@
                 ],
             };
 
-            let state = {}; // Ürünlerin satın alma durumu
+            let state = {}; // Ürün satın alma durumu
+            let confirmationCallback = null; // Onay modalı için callback fonksiyonu
+            let editingItem = { category: null, index: null }; // Düzenlenen ürünü takip etmek için
 
             const categoryTabsContainer = document.getElementById('category-tabs');
             const categoryContentContainer = document.getElementById('category-content');
@@ -652,11 +666,9 @@
             const progressTextEl = document.getElementById('progress-text');
             const chartCanvas = document.getElementById('progress-chart').getContext('2d');
             let progressChart;
-            let currentCategory = Object.keys(ceyizData)[0]; // Şu anda aktif kategori
-            let confirmationCallback = null; // Onay modalı için geri çağırma fonksiyonu
-            let editingItem = { category: null, index: null }; // Düzenlenen öğeyi takip etmek için
+            let currentCategory = Object.keys(ceyizData)[0]; // Mevcut aktif kategori
 
-            // Uygulama durumunu localStorage'dan veya varsayılan verilerden başlat
+            // Uygulama durumunu localStorage'dan veya varsayılan veriden başlat
             function initializeState() {
                 const savedCeyizData = JSON.parse(localStorage.getItem('ceyizData'));
                 const savedState = JSON.parse(localStorage.getItem('ceyizState'));
@@ -686,13 +698,19 @@
                             state[category][index] = false; // Yeni öğeleri satın alınmamış olarak ekle
                         }
                     });
-                    // ceyizData'da artık bulunmayan öğeler için durumu kaldır
+                    // ceyizData'da olmayan öğelerin durumunu kaldır
                     for (const idx in state[category]) {
-                        if (!ceyizData[category][idx]) {
+                        if (ceyizData[category] && !ceyizData[category][idx]) {
                             delete state[category][idx];
                         }
                     }
                 });
+                // ceyizData'da artık bulunmayan kategorilerin durumunu temizle
+                for (const category in state) {
+                    if (!ceyizData[category]) {
+                        delete state[category];
+                    }
+                }
             }
 
             // Mevcut çeyiz verilerini ve durumunu localStorage'a kaydet
@@ -701,22 +719,24 @@
                 localStorage.setItem('ceyizState', JSON.stringify(state));
             }
 
-            // ceyizData'yı alt kategoriye göre ve sonra ürün adına göre alfabetik olarak sırala
+            // CeyizData'yı alt kategoriye göre ve ardından ürün adına göre alfabetik olarak sırala
             function sortCeyizData() {
                 Object.keys(ceyizData).forEach(mainCategory => {
-                    ceyizData[mainCategory].sort((a, b) => {
-                        const catCompare = a.cat.localeCompare(b.cat, 'tr', { sensitivity: 'base' });
-                        if (catCompare !== 0) {
-                            return catCompare;
-                        }
-                        return a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' });
-                    });
+                    if (ceyizData[mainCategory]) { // Ana kategori mevcutsa kontrol et
+                        ceyizData[mainCategory].sort((a, b) => {
+                            const catCompare = a.cat.localeCompare(b.cat, 'tr', { sensitivity: 'base' });
+                            if (catCompare !== 0) {
+                                return catCompare;
+                            }
+                            return a.name.localeCompare(b.name, 'tr', { sensitivity: 'base' });
+                        });
+                    }
                 });
             }
 
             // Kategori sekmelerini oluştur
             function renderTabs() {
-                const categories = Object.keys(ceyizData);
+                const categories = Object.keys(ceyizData).sort((a,b) => a.localeCompare(b, 'tr', { sensitivity: 'base' })); // Kategorileri alfabetik olarak sırala
                 categoryTabsContainer.innerHTML = categories.map((cat, index) => `
                     <button data-category="${cat}" class="tab-btn px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200 ${cat === currentCategory ? 'tab-active' : 'tab-inactive'}">
                         ${cat}
@@ -737,9 +757,40 @@
                 });
             }
 
-            // Seçilen kategori için içeriği oluştur
+            // Seçilen kategori için içeriği render et
             function renderContent(category) {
                 const items = ceyizData[category];
+                if (!items || items.length === 0) {
+                    categoryContentContainer.innerHTML = `
+                        <div class="mb-4 flex flex-wrap gap-2 justify-center">
+                            <p class="text-sm text-gray-600 mb-2 w-full text-center">Bu bölümde, seçili kategoriye ait detaylı ürün listesini ve her bir ürün için faydalı bilgiler edinebileceğin yapay zeka destekli özellikleri bulabilirsin.</p>
+                            <button id="suggest-items-btn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                                ✨ Yeni Ürün Önerileri ✨
+                            </button>
+                            <button id="openAddProductModalBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                                + Yeni Ürün Ekle
+                            </button>
+                             <button id="unmarkAllItemsBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                                Tümünün İşaretini Kaldır
+                            </button>
+                            <div id="suggestion-output-container" class="mt-4 p-4 bg-emerald-50 rounded-lg text-sm text-gray-700 hidden w-full">
+                                <p class="text-gray-500 mb-2">Yapay zekadan gelen öneriler:</p>
+                                <div id="suggestion-output" class="whitespace-pre-wrap"></div>
+                                <button class="text-red-500 hover:text-red-700 font-semibold mt-2" onclick="document.getElementById('suggestion-output-container').classList.add('hidden'); document.getElementById('suggestion-output').innerHTML = '';">Kapat</button>
+                            </div>
+                        </div>
+                        <p class="text-center text-gray-600">Bu kategoride henüz hiç ürün bulunmamaktadır. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>
+                    `;
+                    document.getElementById('suggest-items-btn').addEventListener('click', () => fetchItemSuggestions(category));
+                    document.getElementById('openAddProductModalBtn').addEventListener('click', openAddProductModal);
+                    document.getElementById('unmarkAllItemsBtn').addEventListener('click', () => {
+                        showConfirmationModal('Tüm işaretli ürünlerin işaretini kaldırmak istediğinizden emin misiniz?', () => {
+                            unmarkAllItems();
+                        });
+                    });
+                    return;
+                }
+
                 const groupedItems = items.reduce((acc, item) => {
                     (acc[item.cat] = acc[item.cat] || []).push(item);
                     return acc;
@@ -782,8 +833,8 @@
                         <tbody class="bg-white">`;
 
                     groupedItems[subCat].forEach((item, originalIndex) => {
-                        // Durum tutarlılığını korumak için öğenin tam kategori dizisindeki orijinal indeksini bulun.
-                        // Gerçek bir uygulamada, her öğeye benzersiz bir kimlik atamak daha sağlam olacaktır.
+                        // Durum tutarlılığını korumak için öğenin tam kategori dizisindeki orijinal indeksini bul.
+                        // Gerçek bir uygulamada, her öğeye benzersiz bir kimlik atamak daha sağlam olurdu.
                         let itemFullIndex = -1;
                         for(let i=0; i<ceyizData[category].length; i++) {
                             if (ceyizData[category][i].name === item.name && ceyizData[category][i].cat === item.cat) {
@@ -853,7 +904,7 @@
 
                 document.getElementById('suggest-items-btn').addEventListener('click', () => fetchItemSuggestions(category));
                 document.getElementById('openAddProductModalBtn').addEventListener('click', openAddProductModal);
-                // Yeni "Tüm İşaretleri Kaldır" butonu için olay dinleyicisi
+                // Yeni "Tümünün İşaretini Kaldır" düğmesi için olay dinleyicisi
                 document.getElementById('unmarkAllItemsBtn').addEventListener('click', () => {
                     showConfirmationModal('Tüm işaretli ürünlerin işaretini kaldırmak istediğinizden emin misiniz?', () => {
                         unmarkAllItems();
@@ -886,7 +937,7 @@
                     });
                 });
                 
-                // "Araştır" butonları için olay dinleyicisi ekle
+                // "Araştır" düğmeleri için olay dinleyicisi ekle
                 document.querySelectorAll('.search-btn').forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         const itemName = e.target.dataset.itemName;
@@ -901,11 +952,11 @@
                 document.getElementById('closeInfoOutputModalBtn').addEventListener('click', closeInfoOutputModal);
                 document.getElementById('closeSearchLinksModalBtn').addEventListener('click', closeSearchLinksModal);
 
-                // İçerik yeniden oluşturulduğunda filtrelemeyi uygula
+                // İçerik yeniden render edildiğinde filtrelemeyi uygula
                 filterItems();
             }
             
-            // Gösterge paneli istatistiklerini ve grafiği güncelle
+            // Dashboard istatistiklerini ve grafiği güncelle
             function updateDashboard() {
                 let total = 0;
                 let purchased = 0;
@@ -935,7 +986,7 @@
                 progressTextEl.textContent = `Tamamlanma Oranı: ${progress.toFixed(1)}%`;
 
                 updateChart(categoryTotals, categoryPurchased);
-                saveData(); // Gösterge paneli güncellemesinden sonra verileri ve durumu kaydet
+                saveData(); // Gösterge paneli güncellendikten sonra verileri ve durumu kaydet
             }
 
             // İlerleme grafiğini güncelle
@@ -1038,7 +1089,7 @@
                 }
             }
 
-            // Ürün bilgilerini doğrudan ceyizData'dan göster
+            // Ürün bilgisini doğrudan ceyizData'dan göster
             function showItemInfoDirectly(category, index) {
                 const item = ceyizData[category][index];
                 const infoOutputContainer = document.getElementById('info-output-container');
@@ -1081,7 +1132,7 @@
                 const productNotes = document.getElementById('newProductNotes').value.trim();
                 const productLink = document.getElementById('newProductLink').value.trim();
                 
-                // Giriş alanından ham değeri al, sayısal olmayan tüm karakterleri kaldır
+                // Giriş alanından ham değeri al, tüm sayısal olmayan karakterleri kaldır
                 let productPrice = document.getElementById('newProductPrice').value.trim();
                 productPrice = productPrice.replace(/[^0-9]/g, '');
                 productPrice = productPrice === '' ? '' : parseInt(productPrice, 10); // Sayıya dönüştür veya boş dize olarak bırak
@@ -1101,14 +1152,14 @@
                     productLink: productLink,
                     productPrice: productPrice, // Sayısal değeri veya boş dizeyi kaydet
                     productBrand: productBrand,
-                    tips: '' // Yeni öğeler boş ipuçlarıyla başlar
+                    tips: '' // Yeni öğeler boş ipuçları ile başlar
                 };
 
                 if (!ceyizData[mainCategory]) {
                     ceyizData[mainCategory] = [];
                 }
                 
-                // Aynı ana kategoride, aynı isim ve alt kategoriye sahip bir öğe olup olmadığını kontrol et
+                // Aynı ana kategoride, aynı ad ve alt kategoriye sahip bir öğe olup olmadığını kontrol et
                 let itemExists = false;
                 for (let i = 0; i < ceyizData[mainCategory].length; i++) {
                     if (ceyizData[mainCategory][i].name.toLowerCase() === productName.toLowerCase() && ceyizData[mainCategory][i].cat.toLowerCase() === subCategory.toLowerCase()) {
@@ -1132,8 +1183,8 @@
                 sortCeyizData(); // Yeni öğe eklendikten sonra verileri sırala
 
                 closeAddProductModal();
-                renderTabs(); // Yeni bir ana kategori eklendiyse sekmeleri yeniden oluştur
-                renderContent(mainCategory); // Mevcut kategoriyi yeniden oluştur
+                renderTabs(); // Yeni bir ana kategori eklendiğinde sekmeleri yeniden render et
+                renderContent(mainCategory); // Mevcut kategoriyi yeniden render et
                 updateDashboard();
             });
 
@@ -1151,7 +1202,7 @@
                 document.getElementById('editProductNotes').value = item.notes;
                 document.getElementById('editProductLink').value = item.productLink;
                 
-                // Açıldığında, item.productPrice bir sayıysa, giriş alanında görüntülemek için biçimlendir
+                // item.productPrice bir sayı ise (örn. 1600), giriş alanında görüntülemek için biçimlendir
                 if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
                     document.getElementById('editProductPrice').value = new Intl.NumberFormat('tr-TR', {
                         style: 'currency',
@@ -1160,7 +1211,7 @@
                         maximumFractionDigits: 0
                     }).format(item.productPrice);
                 } else {
-                    document.getElementById('editProductPrice').value = ''; // Veya zaten boş bir dizeyse boş bırak
+                    document.getElementById('editProductPrice').value = ''; // Zaten boş bir dizeyse boş bırak
                 }
                 document.getElementById('editProductBrand').value = item.productBrand; 
             }
@@ -1178,8 +1229,8 @@
                 e.preventDefault();
                 const { category, index } = editingItem;
                 if (category === null || index === null) {
-                    // Mantık doğruysa bu olmamalı, ancak bir önlem olarak
-                    console.error("Düzenlemek için ürün seçilmedi.");
+                    // Mantık doğruysa bu olmamalı, ancak bir güvenlik önlemi olarak
+                    console.error("Düzenlemek için öğe seçilmedi.");
                     closeEditProductModal();
                     return;
                 }
@@ -1189,7 +1240,7 @@
                 const updatedNotes = document.getElementById('editProductNotes').value.trim();
                 const updatedLink = document.getElementById('editProductLink').value.trim();
                 
-                // Giriş alanından ham değeri al, sayısal olmayan tüm karakterleri kaldır
+                // Giriş alanından ham değeri al, tüm sayısal olmayan karakterleri kaldır
                 let updatedPrice = document.getElementById('editProductPrice').value.trim();
                 updatedPrice = updatedPrice.replace(/[^0-9]/g, '');
                 updatedPrice = updatedPrice === '' ? '' : parseInt(updatedPrice, 10); // Sayıya dönüştür veya boş dize olarak bırak
@@ -1213,7 +1264,7 @@
                 sortCeyizData(); // Öğeyi düzenledikten sonra verileri sırala
 
                 closeEditProductModal();
-                renderContent(category); // Mevcut kategoriyi yeniden oluştur
+                renderContent(category); // Mevcut kategoriyi yeniden render et
                 updateDashboard();
             });
 
@@ -1230,7 +1281,7 @@
                 confirmationCallback = null;
             }
 
-            // Onay butonu için olay dinleyicisi
+            // Onayla düğmesi için olay dinleyicisi
             document.getElementById('confirmBtn').addEventListener('click', () => {
                 if (confirmationCallback) {
                     confirmationCallback();
@@ -1238,7 +1289,7 @@
                 closeConfirmationModal();
             });
 
-            // İptal onay butonu için olay dinleyicisi
+            // Onayı iptal et düğmesi için olay dinleyicisi
             document.getElementById('cancelConfirmBtn').addEventListener('click', () => {
                 closeConfirmationModal();
             });
@@ -1250,8 +1301,8 @@
                     // Dizinler güncellendikten sonra kategori durumunu yeniden başlat
                     const newStateForCategory = {};
                     ceyizData[category].forEach((item, idx) => {
-                        // Kalan öğelerin yeni indeksine göre durumu korumaya çalışın.
-                        // Daha sağlam bir çözüm için her öğe için benzersiz kimlikler ideal olacaktır.
+                        // Kalan öğelerin yeni indeksine göre durumu korumaya çalış.
+                        // Daha sağlam bir çözüm için, her öğe için benzersiz kimlikler ideal olacaktır.
                         newStateForCategory[idx] = state[category][idx] !== undefined ? state[category][idx] : false;
                     });
                     state[category] = newStateForCategory;
@@ -1286,7 +1337,7 @@
                 }
 
                 if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
-                    // item.productPrice artık bir sayı (örn: 1600), bu yüzden doğrudan biçimlendirin
+                    // item.productPrice şimdi bir sayı (örn. 1600), bu yüzden doğrudan biçimlendir
                     productInfoPriceEl.textContent = `Ürün Fiyatı: ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.productPrice)}`;
                 } else {
                     productInfoPriceEl.textContent = 'Ürün Fiyatı: Bilgi Yok';
@@ -1298,7 +1349,7 @@
                 document.getElementById('productInfoModal').style.display = 'none';
             }
 
-            // Bilgi çıktısı modalını kapat (AI önerileri için)
+            // Bilgi çıkış modalını kapat (yapay zeka önerileri için)
             function closeInfoOutputModal() {
                 document.getElementById('info-output-container').classList.add('hidden');
                 document.getElementById('info-output').innerHTML = '';
@@ -1341,14 +1392,14 @@
 
             // Para birimi girişini biçimlendir
             function formatCurrencyInput(event) {
-                let value = event.target.value.replace(/[^0-9]/g, ''); // Sayısal olmayan tüm karakterleri kaldır
+                let value = event.target.value.replace(/[^0-9]/g, ''); // Tüm sayısal olmayan karakterleri kaldır
                 if (value === '') {
                     event.target.value = '';
                     return;
                 }
                 const numberValue = parseInt(value, 10);
                 if (isNaN(numberValue)) {
-                    event.target.value = ''; // Herhangi bir şekilde sayısal değilse temizle
+                    event.target.value = ''; // Herhangi bir şekilde sayı değilse temizle
                     return;
                 }
                 // Türk Lirası olarak biçimlendir
@@ -1379,7 +1430,7 @@
                 });
             }
 
-            // Satın alınan ürünler modalını göster
+            // Satın alınan öğeler modalını göster
             function showPurchasedItemsModal() {
                 const purchasedItemsListUl = document.querySelector('#purchasedItemsList ul');
                 purchasedItemsListUl.innerHTML = ''; // Listeyi temizle
@@ -1405,7 +1456,7 @@
                 document.getElementById('purchasedItemsModal').style.display = 'flex';
             }
 
-            // Kalan ürünler modalını göster
+            // Kalan öğeler modalını göster
             function showRemainingItemsModal() {
                 const remainingItemsListUl = document.querySelector('#remainingItemsList ul');
                 remainingItemsListUl.innerHTML = ''; // Listeyi temizle
@@ -1431,12 +1482,12 @@
                 document.getElementById('remainingItemsModal').style.display = 'flex';
             }
 
-            // Satın alınan ürünler modalını kapat
+            // Satın alınan öğeler modalını kapat
             function closePurchasedItemsModal() {
                 document.getElementById('purchasedItemsModal').style.display = 'none';
             }
 
-            // Kalan ürünler modalını kapat
+            // Kalan öğeler modalını kapat
             function closeRemainingItemsModal() {
                 document.getElementById('remainingItemsModal').style.display = 'none';
             }
@@ -1455,15 +1506,16 @@
             // Tüm öğelerin işaretini kaldır işlevi
             function unmarkAllItems() {
                 Object.keys(state).forEach(category => {
-                    Object.keys(state[category]).forEach(index => {
-                        state[category][index] = false;
-                    });
+                    if (state[category]) { // Kategorinin durumda mevcut olup olmadığını kontrol et
+                        Object.keys(state[category]).forEach(index => {
+                            state[category][index] = false;
+                        });
+                    }
                 });
-                renderContent(currentCategory); // Onay kutularını ve üstü çizili metinleri güncellemek için mevcut içeriği yeniden oluştur
+                renderContent(currentCategory); // Onay kutularını ve üstü çizili metni güncellemek için mevcut içeriği yeniden render et
                 updateDashboard(); // Değişiklikleri yansıtmak için gösterge panelini güncelle
                 showMessageModal('İşaretler Kaldırıldı', 'Tüm ürünlerin işaretleri başarıyla kaldırıldı.', null);
             }
-
 
             // --- Yedekleme ve Geri Yükleme Fonksiyonları ---
 
@@ -1491,7 +1543,7 @@
                 document.getElementById('restoreFileInput').click(); // Dosya girişini tetikle
             }
 
-            // Geri yükleme için dosya seçimini yönet
+            // Geri yükleme için dosya seçimini işle
             document.getElementById('restoreFileInput').addEventListener('change', function(event) {
                 const file = event.target.files[0];
                 if (!file) {
@@ -1510,9 +1562,17 @@
                                     state = loadedData.ceyizState;
                                     sortCeyizData(); // Yüklenen verileri sırala
                                     saveData(); // Yüklenen verileri localStorage'a kaydet
-                                    initializeState(); // Tutarlılık sağlamak için durumu yeniden başlat
+                                    initializeState(); // Tutarlılık için durumu yeniden başlat
                                     renderTabs();
-                                    renderContent(currentCategory);
+                                    // Önceki kategori artık yoksa currentCategory'yi ilk kategoriye ayarla
+                                    if (!Object.keys(ceyizData).includes(currentCategory)) {
+                                        currentCategory = Object.keys(ceyizData)[0] || null;
+                                    }
+                                    if (currentCategory) {
+                                        renderContent(currentCategory);
+                                    } else {
+                                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
+                                    }
                                     updateDashboard();
                                     showMessageModal('Yedekleme Yüklendi', 'Çeyiz listeniz yedek dosyasından başarıyla yüklendi.', null);
                                 }
@@ -1525,11 +1585,69 @@
                     }
                 };
                 reader.readAsText(file);
-                // Aynı dosya seçilse bile "change" olayının tekrar tetiklenmesi için dosya giriş değerini temizle
+                // Aynı dosya seçilirse "change" olayının tekrar tetiklenmesine izin vermek için dosya giriş değerini temizle
                 event.target.value = '';
             });
 
-            // Başlangıç kurulum işlevi
+            // Yeni bir kategori ekleme işlevi
+            document.getElementById('add-category-btn').addEventListener('click', () => {
+                showConfirmationModal('Yeni bir kategori eklemek istediğinizden emin misiniz? Bir ürün ekleyerek de yeni kategori oluşturabilirsiniz.', () => {
+                    const newCategoryName = prompt('Lütfen yeni kategori adını girin:');
+                    if (newCategoryName && newCategoryName.trim() !== '') {
+                        const categoryExists = Object.keys(ceyizData).some(cat => cat.toLowerCase() === newCategoryName.trim().toLowerCase());
+                        if (categoryExists) {
+                            showMessageModal('Hata', 'Bu kategori zaten mevcut.', null);
+                        } else {
+                            ceyizData[newCategoryName.trim()] = [];
+                            state[newCategoryName.trim()] = {}; // Yeni kategori için durumu başlat
+                            currentCategory = newCategoryName.trim(); // Yeni eklenen kategoriye geç
+                            sortCeyizData();
+                            renderTabs();
+                            renderContent(currentCategory);
+                            updateDashboard();
+                            showMessageModal('Başarılı', `'${newCategoryName.trim()}' kategorisi başarıyla eklendi.`, null);
+                        }
+                    } else if (newCategoryName !== null) { // Kullanıcı iptal ettiyse veya boş dize girdiyse
+                        showMessageModal('Bilgi', 'Kategori ekleme iptal edildi.', null);
+                    }
+                });
+            });
+
+            // Mevcut kategoriyi silme işlevi
+            document.getElementById('delete-category-btn').addEventListener('click', () => {
+                if (!currentCategory) {
+                    showMessageModal('Hata', 'Silinecek bir kategori seçili değil.', null);
+                    return;
+                }
+                if (Object.keys(ceyizData).length === 1) {
+                    showMessageModal('Hata', 'Son kategoriyi silemezsiniz. En az bir kategori bulunmalıdır.', null);
+                    return;
+                }
+
+                showConfirmationModal(`'${currentCategory}' kategorisini ve içerdiği tüm ürünleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.`, () => {
+                    delete ceyizData[currentCategory];
+                    delete state[currentCategory]; // Kaldırılan kategori için durumu da sil
+
+                    const categories = Object.keys(ceyizData);
+                    if (categories.length > 0) {
+                        currentCategory = categories[0]; // İlk mevcut kategoriye geç
+                    } else {
+                        currentCategory = null; // Hiç kategori kalmadı
+                    }
+
+                    sortCeyizData();
+                    renderTabs();
+                    if (currentCategory) {
+                        renderContent(currentCategory);
+                    } else {
+                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
+                    }
+                    updateDashboard();
+                    showMessageModal('Başarılı', 'Kategori ve içerdiği tüm ürünler başarıyla silindi.', null);
+                });
+            });
+
+            // İlk kurulum işlevi
             function init() {
                 initializeState();
                 sortCeyizData(); // İlk yüklemede verileri sırala
@@ -1540,7 +1658,7 @@
                     if (currentCategory) {
                         renderContent(currentCategory);
                     } else {
-                        // Geri yükleme sonrası ceyizData boşsa durumu yönet
+                        // Geri yükleme sonrası ceyizData boşsa durumu işle
                         categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
                     }
                 } else {
@@ -1555,15 +1673,15 @@
                 // Arama girişi için olay dinleyicisi ekle
                 document.getElementById('searchInput').addEventListener('input', filterItems);
 
-                // Gösterge panelindeki "Alınan" ve "Kalan" öğeleri için tıklama olay dinleyicileri ekle
+                // Gösterge panelindeki "Alınan" ve "Kalan" öğeler için tıklama olay dinleyicileri ekle
                 document.getElementById('purchased-items').addEventListener('click', showPurchasedItemsModal);
                 document.getElementById('remaining-items').addEventListener('click', showRemainingItemsModal);
 
-                // Modal kapatma butonlarını ekle
+                // Modal kapatma düğmeleri ekle
                 document.getElementById('closePurchasedItemsModalBtn').addEventListener('click', closePurchasedItemsModal);
                 document.getElementById('closeRemainingItemsModalBtn').addEventListener('click', closeRemainingItemsModal);
                 
-                // Yedekleme ve geri yükleme butonları için olay dinleyicileri ekle
+                // Yedekleme ve geri yükleme düğmeleri için olay dinleyicileri ekle
                 document.getElementById('backupDataBtn').addEventListener('click', backupData);
                 document.getElementById('restoreDataBtn').addEventListener('click', restoreData);
             }
