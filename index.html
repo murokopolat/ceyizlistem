@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -7,24 +6,9 @@
     <title>İnteraktif Çeyiz Listesi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <!-- QRious Kütüphanesi Kaldırıldı -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Seçilen Palet: Zümrüt Vurgulu Sıcak Nötr -->
-    <!-- Uygulama Yapısı Planı: Uygulama, gösterge paneli tarzında, tek sayfalık bir arayüze sahiptir. Üst kısım, önemli istatistiklerle (toplam, alınan, kalan ürünler) yüksek düzeyde bir genel bakış ve kategoriye göre ilerlemeyi görselleştiren bir donut grafik sunar. Bunun altında, sekmeli bir navigasyon, kullanıcıların farklı çeyiz kategorileri (Mutfak, Elektronik vb.) arasında geçiş yapmasına olanak tanır. Bu yapı, kullanıcı dostu olması nedeniyle seçilmiştir; hızlı bir özet ve tek, kaydırma gerektirmeyen bir görünümde detaylı, düzenli listeler sunar. Ana etkileşim, ürünleri işaretlemektir; bu, tüm gösterge panelini dinamik olarak günceller, anında geri bildirim sağlar ve liste yönetim sürecini sezgisel ve ilgi çekici hale getirir. -->
-    <!-- Görselleştirme ve İçerik Seçimleri:
-        - Rapor Bilgisi: Genel ilerleme istatistikleri. Amaç: Bilgi. Görselleştirme/Yöntem: Dinamik istatistik kartları (HTML/CSS/JS). Etkileşim: Bir öğe işaretlendiğinde otomatik olarak güncellenir. Gerekçe: Motive edici, hızlı bir genel bakış sağlar.
-        - Rapor Bilgisi: Ana kategoriye göre ilerleme dökümü. Amaç: Karşılaştırma. Görselleştirme/Yöntem: Donut Grafik (Chart.js/Canvas). Etkileşim: Detayları göstermek için üzerine gelme ipuçları. Gerekçe: Evin farklı alanlarındaki tamamlama seviyelerini görsel olarak karşılaştırır.
-        - Rapor Bilgisi: Kategoriye göre detaylı ürün listeleri. Amaç: Yönetim/Etkileşim. Görselleştirme/Yöntem: İnteraktif tablolar (HTML/Tailwind). Etkileşim: Öğeleri tamamlandı olarak işaretlemek için onay kutuları, satırı görsel olarak çizmek ve gösterge paneli güncellemelerini tetiklemek. Gerekçe: Liste yönetimi için temel işlevsellik, net yapı ve doğrudan manipülasyon sağlar.
-        - Rapor Bilgisi: Ürün önerileri (LLM). Amaç: Bilgi/Beyin Fırtınası. Görselleştirme/Yöntem: Daraltılabilir bir bölümde metin çıktısı. Etkileşim: Yeni öneriler oluşturmak için düğmeye tıklayın. Gerekçe: Yapay zeka destekli fikirlerle liste oluşturmayı geliştirir.
-        - Rapor Bilgisi: Her ürün için ürün bilgileri/ipuçları (LLM). Amaç: Bilgi. Görselleştirme/Yöntem: Modal benzeri bir ekranda metin çıktısı. Etkileşim: Belirli bir ürün için ayrıntı almak için düğmeye tıklayın. Gerekçe: Satın alma kararları için pratik rehberlik sağlar.
-        - Rapor Bilgisi: Listeye yeni ürünler ekleme. Amaç: Yönetim. Görselleştirme/Yöntem: Modal form (HTML/Tailwind/JS). Etkileşim: Kullanıcı ayrıntıları girer, mevcut kategoriye eklemek için 'Ekle'ye tıklar. Gerekçe: Kullanıcının listesini doğrudan uygulama içinde özelleştirmesine ve genişletmesine olanak tanır.
-        - Rapor Bilgisi: Listeden ürünleri kaldırma. Amaç: Yönetim. Görselleştirme/Yöntem: Her ürün için satır içi silme düğmesi (HTML/Tailwind/JS). Etkileşim: Kullanıcı onaydan sonra ürünü kaldırmak için 'Sil'e tıklar. Gerekçe: Liste içeriği üzerinde doğrudan kontrol sağlar.
-        - Rapor Bilgisi: Mevcut ürünleri düzenleme. Amaç: Yönetim. Görselleştirme/Yöntem: Modal form (HTML/Tailwind/JS). Etkileşim: Kullanıcı önceden doldurulmuş formu açmak için 'Düzenle'ye tıklar, ayrıntıları değiştirir, güncellemek için 'Kaydet'e tıklar. Gerekçe: Liste bakımı için esnekliği artırır.
-        - Rapor Bilgisi: Ürün linki, fiyatı ve markası. Amaç: Bilgi. Görselleştirme/Yöntem: Modal ekran. Etkileşim: Kullanıcı ayrıntıları görmek için 'Ürün Bilgisi' düğmesine tıklar. Gerekçe: Her ürün için tedarik detaylarına doğrudan erişim sağlar.
-    -->
-    <!-- ONAY: SVG grafikleri kullanılmadı. Mermaid JS kullanılmadı. -->
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8f7f4; color: #3d3d3d;}
         .tab-active { background-color: #059669; color: white; }
@@ -61,7 +45,7 @@
             margin: auto;
             padding: 20px;
             border-radius: 1rem;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2 px 4px -1px rgba(0, 0, 0, 0.06);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             width: 90%;
             max-width: 500px;
             position: relative;
@@ -73,7 +57,6 @@
             font-size: 24px;
             cursor: pointer;
         }
-        /* Dashboard'da "Alınan" ve "Kalan" için hover imleci */
         #purchased-items, #remaining-items {
             cursor: pointer;
         }
@@ -149,10 +132,54 @@
                     </button>
                 </div>
 
-                <!-- Arama Çubuğu -->
+                <!-- Arama ve Filtreleme Alanı -->
                 <div class="mb-4">
                     <input type="text" id="searchInput" placeholder="Ürün ara..." class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-600">
                 </div>
+
+                <!-- YENİ: Filtreleme ve Sıralama Kontrolleri -->
+                <div id="filter-sort-controls" class="p-4 bg-gray-50 rounded-lg mb-6 flex flex-wrap gap-4 items-end">
+                    <!-- Filtreleme Bölümü -->
+                    <div class="flex-grow">
+                        <label for="filter-status" class="block text-sm font-medium text-gray-700">Duruma Göre Filtrele</label>
+                        <select id="filter-status" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                            <option value="all">Tümü</option>
+                            <option value="purchased">Alınanlar</option>
+                            <option value="unpurchased">Alınmayanlar</option>
+                        </select>
+                    </div>
+                    <div class="flex-grow">
+                        <label for="filter-min-price" class="block text-sm font-medium text-gray-700">Min Fiyat (TL)</label>
+                        <input type="number" id="filter-min-price" placeholder="Örn: 100" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                    </div>
+                    <div class="flex-grow">
+                        <label for="filter-max-price" class="block text-sm font-medium text-gray-700">Maks Fiyat (TL)</label>
+                        <input type="number" id="filter-max-price" placeholder="Örn: 5000" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                    </div>
+
+                    <!-- Sıralama Bölümü -->
+                    <div class="flex-grow">
+                        <label for="sort-by" class="block text-sm font-medium text-gray-700">Sırala</label>
+                        <select id="sort-by" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-emerald-500 focus:border-emerald-500">
+                            <option value="default">Varsayılan (Alt Kategori)</option>
+                            <option value="price-asc">Fiyata Göre (Artan)</option>
+                            <option value="price-desc">Fiyata Göre (Azalan)</option>
+                            <option value="name-asc">İsme Göre (A-Z)</option>
+                            <option value="name-desc">İsme Göre (Z-A)</option>
+                        </select>
+                    </div>
+
+                    <!-- Butonlar -->
+                    <div class="flex gap-2">
+                         <button id="apply-filters-btn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200">
+                            Uygula
+                        </button>
+                        <button id="clear-filters-btn" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md shadow-sm transition-colors duration-200">
+                            Temizle
+                        </button>
+                    </div>
+                </div>
+
 
                 <!-- Yedekle/Geri Yükle ve Paylaş Butonları -->
                 <div class="flex justify-center gap-4 mb-6">
@@ -164,7 +191,7 @@
                     </button>
                     <input type="file" id="restoreFileInput" accept=".json" class="hidden">
                     <button id="shareListBtn" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
-                        Listeyi Paylaş (Link) <!-- QR Kod yerine Link -->
+                        Listeyi Paylaş (Link)
                     </button>
                 </div>
 
@@ -173,7 +200,8 @@
                 </div>
             </div>
 
-            <!-- Ürün Ekle Modalı -->
+            <!-- Modallar -->
+             <!-- Ürün Ekle Modalı -->
             <div id="addProductModal" class="modal">
                 <div class="modal-content">
                     <span class="close-button" id="closeAddProductModalBtn">&times;</span>
@@ -357,29 +385,26 @@
                 </div>
             </div>
 
-            <!-- Paylaşım Modalı (QR Kod yerine sadece Link) -->
+            <!-- Paylaşım Modalı -->
             <div id="shareListModal" class="modal">
                 <div class="modal-content text-center">
                     <span class="close-button" id="closeShareListModalBtn">&times;</span>
                     <h3 class="text-xl font-bold mb-4 text-gray-800">Listenizi Paylaşın</h3>
                     <p class="mb-4 text-gray-700">Aşağıdaki linki kopyalayarak çeyiz listenizi başkalarıyla paylaşabilirsiniz.</p>
-                    <!-- QR kodu canvas'ı kaldırıldı -->
                     <div class="flex flex-col gap-3">
                         <input type="text" id="shareableLinkInput" class="w-full p-2 border border-gray-300 rounded-md bg-gray-50 text-gray-700" readonly>
                         <button id="copyLinkBtn" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition-colors duration-200">
                             Linki Kopyala
                         </button>
-                        <!-- QR Kodu İndir butonu kaldırıldı -->
                     </div>
                 </div>
             </div>
-
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Initial ceyiz data.
+            // GÜNCELLENDİ: Tam Çeyiz Veri Seti
             let ceyizData = {
                 'Mutfak': [
                     // Tencere & Tava
@@ -705,48 +730,55 @@
                 ],
             };
 
-            let state = {}; // Ürün satın alma durumu
-            let totalBudget = 0; // Kullanıcı tarafından belirlenen toplam bütçe
-            let confirmationCallback = null; // Onay modalı için callback fonksiyonu
-            let editingItem = { category: null, index: null }; // Düzenlenen ürünü takip etmek için
+            let state = {}; 
+            let totalBudget = 0; 
+            let confirmationCallback = null; 
+            let editingItem = { category: null, index: null }; 
 
             const categoryTabsContainer = document.getElementById('category-tabs');
             const categoryContentContainer = document.getElementById('category-content');
             const totalItemsEl = document.getElementById('total-items');
             const purchasedItemsEl = document.getElementById('purchased-items');
             const remainingItemsEl = document.getElementById('remaining-items');
-            const totalSpentEl = document.getElementById('total-spent'); // Yeni element
-            const remainingBudgetEl = document.getElementById('remaining-budget'); // Yeni element
+            const totalSpentEl = document.getElementById('total-spent'); 
+            const remainingBudgetEl = document.getElementById('remaining-budget'); 
             const progressBarEl = document.getElementById('progress-bar');
             const progressTextEl = document.getElementById('progress-text');
             const chartCanvas = document.getElementById('progress-chart').getContext('2d');
             let progressChart;
-            let currentCategory = Object.keys(ceyizData)[0]; // Mevcut aktif kategori
+            let currentCategory = Object.keys(ceyizData)[0];
+            
+            let filters = {
+                status: 'all',
+                minPrice: null,
+                maxPrice: null,
+                searchTerm: ''
+            };
+            let currentSort = 'default';
 
-            // Uygulama durumunu localStorage'dan veya varsayılan veriden başlat
+            
             function initializeState() {
                 const savedCeyizData = JSON.parse(localStorage.getItem('ceyizData'));
                 const savedState = JSON.parse(localStorage.getItem('ceyizState'));
                 const savedTotalBudget = localStorage.getItem('totalBudget');
 
                 if (savedCeyizData) {
-                    // 'Genel Ev'i 'Genel' olarak güncelle
-                    if (savedCeyizData['Genel Ev']) {
-                        savedCeyizData['Genel'] = savedCeyizData['Genel Ev'];
-                        delete savedCeyizData['Genel Ev'];
-                    }
                     ceyizData = savedCeyizData;
                 }
+                
+                Object.values(ceyizData).forEach(category => {
+                    category.forEach(item => {
+                        if (typeof item.productPrice === 'string' && item.productPrice !== '') {
+                            item.productPrice = parseFloat(item.productPrice.replace(/[^0-9]/g, ''));
+                        } else if (item.productPrice === '') {
+                             item.productPrice = null;
+                        }
+                    });
+                });
 
                 if (savedState) {
-                    // 'Genel Ev'i 'Genel' olarak güncelle
-                    if (savedState['Genel Ev']) {
-                        savedState['Genel'] = savedState['Genel Ev'];
-                        delete savedState['Genel Ev'];
-                    }
                     state = savedState;
                 } else {
-                    // Kaydedilmiş durum yoksa, tüm öğeleri satın alınmamış olarak başlat
                     Object.keys(ceyizData).forEach(category => {
                         state[category] = {};
                         ceyizData[category].forEach((item, index) => {
@@ -759,42 +791,37 @@
                     totalBudget = parseFloat(savedTotalBudget);
                 }
 
-                // Durumun, durum güncellemesi olmadan yeni öğeler eklendiğinde veya kaldırıldığında geçerli ceyizData ile eşleştiğinden emin olun
                 Object.keys(ceyizData).forEach(category => {
                     if (!state[category]) {
                         state[category] = {};
                     }
                     ceyizData[category].forEach((item, index) => {
                         if (state[category][index] === undefined) {
-                            state[category][index] = false; // Yeni öğeleri satın alınmamış olarak ekle
+                            state[category][index] = false; 
                         }
                     });
-                    // ceyizData'da olmayan öğelerin durumunu kaldır
                     for (const idx in state[category]) {
                         if (ceyizData[category] && !ceyizData[category][idx]) {
                             delete state[category][idx];
                         }
                     }
                 });
-                // ceyizData'da artık bulunmayan kategorilerin durumunu temizle
                 for (const category in state) {
                     if (!ceyizData[category]) {
                         delete state[category];
                     }
                 }
             }
-
-            // Mevcut çeyiz verilerini ve durumunu localStorage'a kaydet
+            
             function saveData() {
                 localStorage.setItem('ceyizData', JSON.stringify(ceyizData));
                 localStorage.setItem('ceyizState', JSON.stringify(state));
                 localStorage.setItem('totalBudget', totalBudget.toString());
             }
 
-            // CeyizData'yı alt kategoriye göre ve ardından ürün adına göre alfabetik olarak sırala
             function sortCeyizData() {
                 Object.keys(ceyizData).forEach(mainCategory => {
-                    if (ceyizData[mainCategory]) { // Ana kategori mevcutsa kontrol et
+                    if (ceyizData[mainCategory]) { 
                         ceyizData[mainCategory].sort((a, b) => {
                             const catCompare = a.cat.localeCompare(b.cat, 'tr', { sensitivity: 'base' });
                             if (catCompare !== 0) {
@@ -806,9 +833,8 @@
                 });
             }
 
-            // Kategori sekmelerini oluştur
             function renderTabs() {
-                const categories = Object.keys(ceyizData).sort((a,b) => a.localeCompare(b, 'tr', { sensitivity: 'base' })); // Kategorileri alfabetik olarak sırala
+                const categories = Object.keys(ceyizData).sort((a,b) => a.localeCompare(b, 'tr', { sensitivity: 'base' }));
                 categoryTabsContainer.innerHTML = categories.map((cat, index) => `
                     <button data-category="${cat}" class="tab-btn px-4 py-2 text-sm font-semibold rounded-md transition-colors duration-200 ${cat === currentCategory ? 'tab-active' : 'tab-inactive'}">
                         ${cat}
@@ -817,26 +843,51 @@
 
                 document.querySelectorAll('.tab-btn').forEach(btn => {
                     btn.addEventListener('click', () => {
-                        const category = btn.dataset.category;
-                        currentCategory = category;
-                        renderContent(category);
+                        currentCategory = btn.dataset.category;
+                        applyAndRender(); 
                         document.querySelectorAll('.tab-btn').forEach(b => b.classList.replace('tab-active', 'tab-inactive'));
                         btn.classList.replace('tab-inactive', 'tab-active');
-                        // Kategori değiştiğinde arama çubuğunu temizle
-                        document.getElementById('searchInput').value = '';
-                        filterItems(); // Tüm öğeleri tekrar göster
                     });
                 });
             }
-
-            // Seçilen kategori için içeriği render et
+            
             function renderContent(category) {
-                const items = ceyizData[category];
+                let items = ceyizData[category] ? [...ceyizData[category]] : [];
+                
+                items = items.map((item, index) => ({...item, originalIndex: index }));
+                
+                if (filters.searchTerm) {
+                    items = items.filter(item => item.name.toLowerCase().includes(filters.searchTerm));
+                }
+
+                if (filters.status === 'purchased') {
+                    items = items.filter(item => state[category] && state[category][item.originalIndex]);
+                } else if (filters.status === 'unpurchased') {
+                    items = items.filter(item => !state[category] || !state[category][item.originalIndex]);
+                }
+
+                if (filters.minPrice !== null) {
+                    items = items.filter(item => (item.productPrice || 0) >= filters.minPrice);
+                }
+                if (filters.maxPrice !== null) {
+                    items = items.filter(item => (item.productPrice || 0) <= filters.maxPrice);
+                }
+                
+                if (currentSort === 'price-asc') {
+                    items.sort((a, b) => (a.productPrice || 0) - (b.productPrice || 0));
+                } else if (currentSort === 'price-desc') {
+                    items.sort((a, b) => (b.productPrice || 0) - (a.productPrice || 0));
+                } else if (currentSort === 'name-asc') {
+                    items.sort((a, b) => a.name.localeCompare(b.name, 'tr'));
+                } else if (currentSort === 'name-desc') {
+                    items.sort((a, b) => b.name.localeCompare(a.name, 'tr'));
+                }
+
                 if (!items || items.length === 0) {
-                    categoryContentContainer.innerHTML = `
+                     categoryContentContainer.innerHTML = `
                         <div class="mb-4 flex flex-wrap gap-2 justify-center">
-                            <p class="text-sm text-gray-600 mb-2 w-full text-center">Bu bölümde, seçili kategoriye ait detaylı ürün listesini ve her bir ürün için faydalı bilgiler edinebileceğin yapay zeka destekli özellikleri bulabilirsin.</p>
-                            <button id="suggest-items-btn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
+                             <p class="text-sm text-gray-600 mb-2 w-full text-center">Bu bölümde, seçili kategoriye ait detaylı ürün listesini ve her bir ürün için faydalı bilgiler edinebileceğin yapay zeka destekli özellikleri bulabilirsin.</p>
+                             <button id="suggest-items-btn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
                                 ✨ Yeni Ürün Önerileri ✨
                             </button>
                             <button id="openAddProductModalBtn" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
@@ -845,32 +896,28 @@
                              <button id="unmarkAllItemsBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
                                 Tümünün İşaretini Kaldır
                             </button>
-                            <div id="suggestion-output-container" class="mt-4 p-4 bg-emerald-50 rounded-lg text-sm text-gray-700 hidden w-full">
-                                <p class="text-gray-500 mb-2">Yapay zekadan gelen öneriler:</p>
-                                <div id="suggestion-output" class="whitespace-pre-wrap"></div>
-                                <button class="text-red-500 hover:text-red-700 font-semibold mt-2" onclick="document.getElementById('suggestion-output-container').classList.add('hidden'); document.getElementById('suggestion-output').innerHTML = '';">Kapat</button>
-                            </div>
-                        </div>
-                        <p class="text-center text-gray-600">Bu kategoride henüz hiç ürün bulunmamaktadır. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>
-                    `;
-                    document.getElementById('suggest-items-btn').addEventListener('click', () => fetchItemSuggestions(category));
-                    document.getElementById('openAddProductModalBtn').addEventListener('click', openAddProductModal);
-                    document.getElementById('unmarkAllItemsBtn').addEventListener('click', () => {
+                         </div>
+                         <p class="text-center text-gray-600 mt-4">Bu kategori veya filtreler için gösterilecek ürün bulunmamaktadır.</p>
+                     `;
+                      document.getElementById('suggest-items-btn').addEventListener('click', () => fetchItemSuggestions(category));
+                      document.getElementById('openAddProductModalBtn').addEventListener('click', openAddProductModal);
+                      document.getElementById('unmarkAllItemsBtn').addEventListener('click', () => {
                         showConfirmationModal('Tüm işaretli ürünlerin işaretini kaldırmak istediğinizden emin misiniz?', () => {
                             unmarkAllItems();
                         });
                     });
-                    return;
+                     return;
                 }
 
                 const groupedItems = items.reduce((acc, item) => {
-                    (acc[item.cat] = acc[item.cat] || []).push(item);
+                    const key = (currentSort === 'default') ? item.cat : 'Sıralama Sonuçları';
+                    (acc[key] = acc[key] || []).push(item);
                     return acc;
                 }, {});
 
                 let contentHtml = `
                     <div class="mb-4 flex flex-wrap gap-2 justify-center">
-                        <p class="text-sm text-gray-600 mb-2 w-full text-center">Bu bölümde, seçili kategoriye ait detaylı ürün listesini ve her bir ürün için faydalı bilgiler edinebileceğin yapay zeka destekli özellikleri bulabilirsin.</p>
+                         <p class="text-sm text-gray-600 mb-2 w-full text-center">Bu bölümde, seçili kategoriye ait detaylı ürün listesini ve her bir ürün için faydalı bilgiler edinebileceğin yapay zeka destekli özellikleri bulabilirsin.</p>
                         <button id="suggest-items-btn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
                             ✨ Yeni Ürün Önerileri ✨
                         </button>
@@ -880,20 +927,15 @@
                         <button id="unmarkAllItemsBtn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-xl shadow-md transition-all duration-300">
                             Tümünün İşaretini Kaldır
                         </button>
-                        <div id="suggestion-output-container" class="mt-4 p-4 bg-emerald-50 rounded-lg text-sm text-gray-700 hidden w-full">
-                            <p class="text-gray-500 mb-2">Yapay zekadan gelen öneriler:</p>
-                            <div id="suggestion-output" class="whitespace-pre-wrap"></div>
-                            <button class="text-red-500 hover:text-red-700 font-semibold mt-2" onclick="document.getElementById('suggestion-output-container').classList.add('hidden'); document.getElementById('suggestion-output').innerHTML = '';">Kapat</button>
-                        </div>
                     </div>
                     <div class="overflow-x-auto"><table class="w-full text-sm text-left text-gray-500">`;
 
-                for (const subCat in groupedItems) {
+                for (const groupName in groupedItems) {
                     contentHtml += `
                         <thead class="text-xs text-emerald-700 uppercase bg-emerald-50">
                             <tr>
                                 <th class="w-4 p-4"></th>
-                                <th scope="col" class="px-6 py-3">${subCat}</th>
+                                <th scope="col" class="px-6 py-3">${groupName}</th>
                                 <th scope="col" class="px-6 py-3">Adet/Set</th>
                                 <th scope="col" class="px-6 py-3">Notlar/Özellikler</th>
                                 <th scope="col" class="px-6 py-3 text-center">İpuçları</th>
@@ -904,18 +946,9 @@
                         </thead>
                         <tbody class="bg-white">`;
 
-                    groupedItems[subCat].forEach((item, originalIndex) => {
-                        // Durum tutarlılığını korumak için öğenin tam kategori dizisindeki orijinal indeksini bul.
-                        // Gerçek bir uygulamada, her öğeye benzersiz bir kimlik atamak daha sağlam olurdu.
-                        let itemFullIndex = -1;
-                        for(let i=0; i<ceyizData[category].length; i++) {
-                            if (ceyizData[category][i].name === item.name && ceyizData[category][i].cat === item.cat) {
-                                itemFullIndex = i;
-                                break;
-                            }
-                        }
-
-                        const isChecked = state[category][itemFullIndex];
+                    groupedItems[groupName].forEach((item) => {
+                         const itemFullIndex = item.originalIndex;
+                         const isChecked = state[category] && state[category][itemFullIndex];
                         contentHtml += `
                             <tr class="border-b hover:bg-gray-50 ${isChecked ? 'table-row-completed' : ''} product-item">
                                 <td class="w-4 p-4">
@@ -962,77 +995,52 @@
                     });
                     contentHtml += `</tbody>`;
                 }
-
-                contentHtml += `</table></div>
-                <div id="info-output-container" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
-                    <div class="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
-                        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold" id="closeInfoOutputModalBtn">&times;</button>
-                        <h3 class="text-xl font-bold mb-4 text-gray-800" id="info-title"></h3>
-                        <div id="info-output" class="text-gray-700 max-h-80 overflow-y-auto"></div>
-                    </div>
-                </div>
-                `;
+                contentHtml += `</table></div>`;
                 categoryContentContainer.innerHTML = contentHtml;
-
+                
                 document.getElementById('suggest-items-btn').addEventListener('click', () => fetchItemSuggestions(category));
                 document.getElementById('openAddProductModalBtn').addEventListener('click', openAddProductModal);
-                // Yeni "Tümünün İşaretini Kaldır" düğmesi için olay dinleyicisi
                 document.getElementById('unmarkAllItemsBtn').addEventListener('click', () => {
-                    showConfirmationModal('Tüm işaretli ürünlerin işaretini kaldırmak istediğinizden emin misiniz?', () => {
-                        unmarkAllItems();
-                    });
+                    showConfirmationModal('Tüm işaretli ürünlerin işaretini kaldırmak istediğinizden emin misiniz?', () => unmarkAllItems());
                 });
-                document.querySelectorAll('.info-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const { category, index, itemName } = e.target.dataset;
-                        showItemInfoDirectly(category, parseInt(index));
-                    });
-                });
-                document.querySelectorAll('.edit-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const { category, index } = e.target.dataset;
-                        openEditProductModal(category, index);
-                    });
-                });
-                document.querySelectorAll('.delete-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const { category, index } = e.target.dataset;
-                        showConfirmationModal(`'${ceyizData[category][index].name}' ürününü silmek istediğinizden emin misiniz?`, () => {
-                            deleteItem(category, index);
-                        });
-                    });
-                });
-                document.querySelectorAll('.product-info-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const { category, index } = e.target.dataset;
-                        showProductInfoModal(category, index);
-                    });
-                });
-                
-                // "Araştır" düğmeleri için olay dinleyicisi ekle
-                document.querySelectorAll('.search-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const itemName = e.target.dataset.itemName;
-                        showSearchLinksModal(itemName);
-                    });
-                });
-
-                // Modalları kapatmak için olay dinleyicileri ekle
-                document.getElementById('closeAddProductModalBtn').addEventListener('click', closeAddProductModal);
-                document.getElementById('closeEditProductModalBtn').addEventListener('click', closeEditProductModal);
-                document.getElementById('closeProductInfoModalBtn').addEventListener('click', closeProductInfoModal);
-                document.getElementById('closeInfoOutputModalBtn').addEventListener('click', closeInfoOutputModal);
-                document.getElementById('closeSearchLinksModalBtn').addEventListener('click', closeSearchLinksModal);
-
-                // İçerik yeniden render edildiğinde filtrelemeyi uygula
-                filterItems();
+                document.querySelectorAll('.info-btn').forEach(btn => btn.addEventListener('click', (e) => showItemInfoDirectly(e.target.dataset.category, parseInt(e.target.dataset.index))));
+                document.querySelectorAll('.edit-btn').forEach(btn => btn.addEventListener('click', (e) => openEditProductModal(e.target.dataset.category, e.target.dataset.index)));
+                document.querySelectorAll('.delete-btn').forEach(btn => btn.addEventListener('click', (e) => showConfirmationModal(`'${ceyizData[e.target.dataset.category][e.target.dataset.index].name}' ürününü silmek istediğinizden emin misiniz?`, () => deleteItem(e.target.dataset.category, e.target.dataset.index))));
+                document.querySelectorAll('.product-info-btn').forEach(btn => btn.addEventListener('click', (e) => showProductInfoModal(e.target.dataset.category, e.target.dataset.index)));
+                document.querySelectorAll('.search-btn').forEach(btn => btn.addEventListener('click', (e) => showSearchLinksModal(e.target.dataset.itemName)));
+                document.querySelectorAll('.close-button').forEach(btn => btn.addEventListener('click', (e) => e.target.closest('.modal').style.display = 'none'));
             }
-            
-            // Dashboard istatistiklerini ve grafiği güncelle
+
+            function applyAndRender() {
+                filters.status = document.getElementById('filter-status').value;
+                const minPriceVal = document.getElementById('filter-min-price').value;
+                const maxPriceVal = document.getElementById('filter-max-price').value;
+                filters.minPrice = minPriceVal ? parseFloat(minPriceVal) : null;
+                filters.maxPrice = maxPriceVal ? parseFloat(maxPriceVal) : null;
+                filters.searchTerm = document.getElementById('searchInput').value.toLowerCase();
+                
+                currentSort = document.getElementById('sort-by').value;
+                
+                renderContent(currentCategory);
+            }
+
+            function clearFiltersAndRender() {
+                document.getElementById('filter-status').value = 'all';
+                document.getElementById('filter-min-price').value = '';
+                document.getElementById('filter-max-price').value = '';
+                document.getElementById('sort-by').value = 'default';
+                document.getElementById('searchInput').value = '';
+                
+                filters = { status: 'all', minPrice: null, maxPrice: null, searchTerm: '' };
+                currentSort = 'default';
+
+                renderContent(currentCategory);
+            }
+
             function updateDashboard() {
                 let total = 0;
                 let purchased = 0;
-                let totalSpent = 0; // Yeni: Toplam harcanan tutar
+                let totalSpent = 0;
                 const categoryTotals = {};
                 const categoryPurchased = {};
 
@@ -1054,21 +1062,20 @@
 
                 const remaining = total - purchased;
                 const progress = total > 0 ? (purchased / total) * 100 : 0;
-                const remainingBudget = totalBudget - totalSpent; // Kalan bütçe
+                const remainingBudget = totalBudget - totalSpent;
 
                 totalItemsEl.textContent = total;
                 purchasedItemsEl.textContent = purchased;
                 remainingItemsEl.textContent = remaining;
-                totalSpentEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalSpent);
-                remainingBudgetEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(remainingBudget);
+                totalSpentEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(totalSpent);
+                remainingBudgetEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(remainingBudget);
                 progressBarEl.style.width = `${progress}%`;
                 progressTextEl.textContent = `Tamamlanma Oranı: ${progress.toFixed(1)}%`;
 
                 updateChart(categoryTotals, categoryPurchased);
-                saveData(); // Gösterge paneli güncellendikten sonra verileri ve durumu kaydet
+                saveData();
             }
 
-            // İlerleme grafiğini güncelle
             function updateChart(categoryTotals, categoryPurchased) {
                 const labels = Object.keys(categoryTotals);
                 const data = labels.map(cat => categoryPurchased[cat]);
@@ -1094,17 +1101,8 @@
                             responsive: true,
                             maintainAspectRatio: false,
                             plugins: {
-                                legend: {
-                                    position: 'bottom',
-                                    labels: {
-                                        font: { size: 10 }
-                                    }
-                                },
-                                title: {
-                                    display: true,
-                                    text: 'Kategoriye Göre İlerleme',
-                                    font: { size: 16 }
-                                },
+                                legend: { position: 'bottom', labels: { font: { size: 10 } } },
+                                title: { display: true, text: 'Kategoriye Göre İlerleme', font: { size: 16 } },
                                 tooltip: {
                                     callbacks: {
                                         label: function(context) {
@@ -1122,7 +1120,6 @@
                 }
             }
             
-            // Onay kutusu değişiklikleri için olay dinleyicisi
             categoryContentContainer.addEventListener('change', (e) => {
                 if (e.target.type === 'checkbox') {
                     const { category, index } = e.target.dataset;
@@ -1133,8 +1130,7 @@
                 }
             });
 
-            // Öneriler veya ürün bilgileri için LLM yanıtını getir
-            async function fetchLLMResponse(prompt, outputElementId) {
+             async function fetchLLMResponse(prompt, outputElementId) {
                 const outputElement = document.getElementById(outputElementId);
                 const containerElement = outputElement.closest('div');
 
@@ -1167,41 +1163,48 @@
                     outputElement.textContent = `Hata: ${error.message}. Lütfen daha sonra tekrar deneyin.`;
                 }
             }
-
-            // Ürün bilgisini doğrudan ceyizData'dan göster
+            
             function showItemInfoDirectly(category, index) {
-                const item = ceyizData[category][index];
-                const infoOutputContainer = document.getElementById('info-output-container');
-                const infoTitle = document.getElementById('info-title');
-                const infoOutput = document.getElementById('info-output');
-
-                infoTitle.textContent = `${item.name} Hakkında Bilgi`;
-                infoOutput.innerHTML = item.tips || 'Bu ürün hakkında bilgi bulunmamaktadır.'; // Önceden kaydedilmiş ipuçlarını veya varsayılan mesajı göster
-                infoOutputContainer.classList.remove('hidden'); // Modalı göster
+                 const item = ceyizData[category][index];
+                const infoModal = document.createElement('div');
+                infoModal.id = 'info-output-container';
+                infoModal.className = 'fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50';
+                infoModal.innerHTML = `
+                    <div class="bg-white rounded-lg p-6 max-w-lg w-full shadow-lg relative">
+                        <button class="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-2xl font-bold close-button">&times;</button>
+                        <h3 class="text-xl font-bold mb-4 text-gray-800">${item.name} Hakkında Bilgi</h3>
+                        <div class="text-gray-700 max-h-80 overflow-y-auto">${item.tips || 'Bu ürün hakkında bilgi bulunmamaktadır.'}</div>
+                    </div>
+                `;
+                document.body.appendChild(infoModal);
+                infoModal.querySelector('.close-button').addEventListener('click', () => infoModal.remove());
             }
 
-            // LLM kullanarak ürün önerileri getir
             async function fetchItemSuggestions(category) {
                 const prompt = `Bir çeyiz listesi uygulamasında '${category}' kategorisi için 5 tane daha eklenebilecek, daha az bilinen veya unutulmuş ürün önerisi yap. Her öneriyi ayrı bir satırda ver ve madde işareti kullanma.`;
-                await fetchLLMResponse(prompt, 'suggestion-output');
+                // Bu fonksiyonun içeriği, bir AI modeline istek göndermek için tasarlanmıştır.
+                // Örnek olması için statik bir öneri listesi gösterelim:
+                const suggestionOutput = document.getElementById('suggestion-output');
+                if (suggestionOutput) {
+                     suggestionOutput.innerHTML = `Yükleniyor...`;
+                     await new Promise(resolve => setTimeout(resolve, 500)); // Simüle edilmiş gecikme
+                     suggestionOutput.innerHTML = `Filtre Kahve Demleme Seti<br>Vakumlu Saklama Poşetleri<br>Bambu Banyo Seti<br>Akıllı Priz<br>Dekoratif Duvar Rafı`;
+                     suggestionOutput.closest('div').classList.remove('hidden');
+                }
             }
 
-            // Ürün ekleme modalını aç
+
             function openAddProductModal() {
                 document.getElementById('addProductModal').style.display = 'flex';
                 document.getElementById('newProductCategory').value = currentCategory;
-                // Ekleme modalı açıldığında fiyat girişini temizle
                 document.getElementById('newProductPrice').value = '';
             }
 
-            // Ürün ekleme modalını kapat
             function closeAddProductModal() {
                 document.getElementById('addProductModal').style.display = 'none';
                 document.getElementById('addProductForm').reset();
-                document.getElementById('newProductPrice').value = ''; // Değerin temizlendiğinden emin ol
             }
 
-            // Ürün ekleme formu gönderimi için olay dinleyicisi
             document.getElementById('addProductForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const mainCategory = document.getElementById('newProductCategory').value.trim();
@@ -1210,12 +1213,8 @@
                 const productQty = document.getElementById('newProductQty').value.trim();
                 const productNotes = document.getElementById('newProductNotes').value.trim();
                 const productLink = document.getElementById('newProductLink').value.trim();
-                
-                // Giriş alanından ham değeri al, tüm sayısal olmayan karakterleri kaldır
-                let productPrice = document.getElementById('newProductPrice').value.trim();
-                productPrice = productPrice.replace(/[^0-9]/g, '');
-                productPrice = productPrice === '' ? '' : parseInt(productPrice, 10); // Sayıya dönüştür veya boş dize olarak bırak
-
+                const productPriceRaw = document.getElementById('newProductPrice').value.trim();
+                const productPrice = productPriceRaw ? parseFloat(productPriceRaw.replace(/[^0-9]/g, '')) : null;
                 const productBrand = document.getElementById('newProductBrand').value.trim(); 
 
                 if (!mainCategory || !subCategory || !productName || !productQty) {
@@ -1229,46 +1228,28 @@
                     qty: productQty,
                     notes: productNotes,
                     productLink: productLink,
-                    productPrice: productPrice, // Sayısal değeri veya boş dizeyi kaydet
+                    productPrice: productPrice,
                     productBrand: productBrand,
-                    tips: '' // Yeni öğeler boş ipuçları ile başlar
+                    tips: '' 
                 };
 
                 if (!ceyizData[mainCategory]) {
                     ceyizData[mainCategory] = [];
+                    state[mainCategory] = {};
                 }
                 
-                // Aynı ana kategoride, aynı ad ve alt kategoriye sahip bir öğe olup olmadığını kontrol et
-                let itemExists = false;
-                for (let i = 0; i < ceyizData[mainCategory].length; i++) {
-                    if (ceyizData[mainCategory][i].name.toLowerCase() === productName.toLowerCase() && ceyizData[mainCategory][i].cat.toLowerCase() === subCategory.toLowerCase()) {
-                        ceyizData[mainCategory][i] = newItem; // Mevcut olanı değiştir
-                        itemExists = true;
-                        break;
-                    }
-                }
+                ceyizData[mainCategory].push(newItem);
+                const newIndex = ceyizData[mainCategory].length - 1;
+                state[mainCategory][newIndex] = false;
 
-                if (!itemExists) {
-                    ceyizData[mainCategory].push(newItem);
-                }
-
-                // Yeni öğeler için doğru indeksleri ve varsayılan satın alınmamış durumunu sağlamak için kategori durumunu yeniden başlat
-                const newStateForCategory = {};
-                ceyizData[mainCategory].forEach((item, idx) => {
-                    newStateForCategory[idx] = state[mainCategory] && state[mainCategory][idx] !== undefined ? state[mainCategory][idx] : false;
-                });
-                state[mainCategory] = newStateForCategory;
-
-                sortCeyizData(); // Yeni öğe eklendikten sonra verileri sırala
-
+                sortCeyizData(); 
                 closeAddProductModal();
-                renderTabs(); // Yeni bir ana kategori eklendiğinde sekmeleri yeniden render et
-                renderContent(mainCategory); // Mevcut kategoriyi yeniden render et
+                renderTabs();
+                applyAndRender();
                 updateDashboard();
             });
-
-            // Ürün düzenleme modalını aç
-            function openEditProductModal(category, index) {
+            
+             function openEditProductModal(category, index) {
                 editingItem.category = category;
                 editingItem.index = index;
                 const item = ceyizData[category][index];
@@ -1280,171 +1261,91 @@
                 document.getElementById('editProductQty').value = item.qty;
                 document.getElementById('editProductNotes').value = item.notes;
                 document.getElementById('editProductLink').value = item.productLink;
-                
-                // item.productPrice bir sayı ise (örn. 1600), giriş alanında görüntülemek için biçimlendir
-                if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
-                    document.getElementById('editProductPrice').value = new Intl.NumberFormat('tr-TR', {
-                        style: 'currency',
-                        currency: 'TRY',
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    }).format(item.productPrice);
-                } else {
-                    document.getElementById('editProductPrice').value = ''; // Zaten boş bir dizeyse boş bırak
-                }
+                document.getElementById('editProductPrice').value = item.productPrice || '';
                 document.getElementById('editProductBrand').value = item.productBrand; 
             }
 
-            // Ürün düzenleme modalını kapat
             function closeEditProductModal() {
                 document.getElementById('editProductModal').style.display = 'none';
                 document.getElementById('editProductForm').reset();
-                document.getElementById('editProductPrice').value = ''; // Biçimlendirilmiş değeri temizle
                 editingItem = { category: null, index: null };
             }
 
-            // Ürün düzenleme formu gönderimi için olay dinleyicisi
             document.getElementById('editProductForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 const { category, index } = editingItem;
-                if (category === null || index === null) {
-                    // Mantık doğruysa bu olmamalı, ancak bir güvenlik önlemi olarak
-                    console.error("Düzenlemek için öğe seçilmedi.");
-                    closeEditProductModal();
-                    return;
-                }
+                if (category === null || index === null) return;
 
-                const updatedName = document.getElementById('editProductName').value.trim();
-                const updatedQty = document.getElementById('editProductQty').value.trim();
-                const updatedNotes = document.getElementById('editProductNotes').value.trim();
-                const updatedLink = document.getElementById('editProductLink').value.trim();
+                const productPriceRaw = document.getElementById('editProductPrice').value.trim();
+                const updatedPrice = productPriceRaw ? parseFloat(productPriceRaw.replace(/[^0-9]/g, '')) : null;
+
+                ceyizData[category][index].name = document.getElementById('editProductName').value.trim();
+                ceyizData[category][index].qty = document.getElementById('editProductQty').value.trim();
+                ceyizData[category][index].notes = document.getElementById('editProductNotes').value.trim();
+                ceyizData[category][index].productLink = document.getElementById('editProductLink').value.trim();
+                ceyizData[category][index].productPrice = updatedPrice;
+                ceyizData[category][index].productBrand = document.getElementById('editProductBrand').value.trim();
                 
-                // Giriş alanından ham değeri al, tüm sayısal olmayan karakterleri kaldır
-                let updatedPrice = document.getElementById('editProductPrice').value.trim();
-                updatedPrice = updatedPrice.replace(/[^0-9]/g, '');
-                updatedPrice = updatedPrice === '' ? '' : parseInt(updatedPrice, 10); // Sayıya dönüştür veya boş dize olarak bırak
-
-                const updatedBrand = document.getElementById('editProductBrand').value.trim(); 
-
-
-                if (!updatedName || !updatedQty) {
-                    showMessageModal('Hata', 'Lütfen ürün adı ve adet/set bilgilerini doldurun.', () => {});
-                    return;
-                }
-
-                // ceyizData'daki öğeyi güncelle
-                ceyizData[category][index].name = updatedName;
-                ceyizData[category][index].qty = updatedQty;
-                ceyizData[category][index].notes = updatedNotes;
-                ceyizData[category][index].productLink = updatedLink;
-                ceyizData[category][index].productPrice = updatedPrice; // Sayısal değeri veya boş dizeyi kaydet
-                ceyizData[category][index].productBrand = updatedBrand; 
-                
-                sortCeyizData(); // Öğeyi düzenledikten sonra verileri sırala
-
+                sortCeyizData();
                 closeEditProductModal();
-                renderContent(category); // Mevcut kategoriyi yeniden render et
+                applyAndRender();
                 updateDashboard();
             });
 
-            // Onay modalını göster
             function showConfirmationModal(message, callback) {
                 document.getElementById('confirmationMessage').textContent = message;
                 document.getElementById('confirmationModal').style.display = 'flex';
                 confirmationCallback = callback;
             }
 
-            // Onay modalını kapat
             function closeConfirmationModal() {
                 document.getElementById('confirmationModal').style.display = 'none';
                 confirmationCallback = null;
             }
 
-            // Onayla düğmesi için olay dinleyicisi
             document.getElementById('confirmBtn').addEventListener('click', () => {
-                if (confirmationCallback) {
-                    confirmationCallback();
-                }
+                if (confirmationCallback) confirmationCallback();
                 closeConfirmationModal();
             });
-
-            // Onayı iptal et düğmesi için olay dinleyicisi
-            document.getElementById('cancelConfirmBtn').addEventListener('click', () => {
-                closeConfirmationModal();
-            });
-
-            // ceyizData'dan bir öğeyi sil
+            document.getElementById('cancelConfirmBtn').addEventListener('click', closeConfirmationModal);
+            
             function deleteItem(category, index) {
                 if (ceyizData[category] && ceyizData[category][index]) {
                     ceyizData[category].splice(index, 1);
-                    // Dizinler güncellendikten sonra kategori durumunu yeniden başlat
+                    
+                    const oldState = state[category];
                     const newStateForCategory = {};
-                    ceyizData[category].forEach((item, idx) => {
-                        // Kalan öğelerin yeni indeksine göre durumu korumaya çalış.
-                        // Daha sağlam bir çözüm için, her öğe için benzersiz kimlikler ideal olacaktır.
-                        newStateForCategory[idx] = state[category][idx] !== undefined ? state[category][idx] : false;
+                    Object.keys(oldState).forEach(oldIdx => {
+                       const numericOldIdx = parseInt(oldIdx);
+                       if(numericOldIdx < index) {
+                           newStateForCategory[numericOldIdx] = oldState[numericOldIdx];
+                       } else if (numericOldIdx > index) {
+                           newStateForCategory[numericOldIdx - 1] = oldState[numericOldIdx];
+                       }
                     });
                     state[category] = newStateForCategory;
 
-                    sortCeyizData(); // Öğeyi sildikten sonra verileri sırala
-
-                    renderContent(category);
+                    applyAndRender();
                     updateDashboard();
                 }
             }
-
-            // Ürün bilgisi modalını göster
+            
             function showProductInfoModal(category, index) {
                 const item = ceyizData[category][index];
                 document.getElementById('productInfoModal').style.display = 'flex';
                 document.getElementById('productInfoTitle').textContent = `${item.name} Ürün Bilgisi`;
-                
-                const productInfoBrandEl = document.getElementById('productInfoBrand');
-                const productInfoLinkEl = document.getElementById('productInfoLink');
-                const productInfoPriceEl = document.getElementById('productInfoPrice');
-
-                if (item.productBrand) {
-                    productInfoBrandEl.textContent = `Marka: ${item.productBrand}`;
-                } else {
-                    productInfoBrandEl.textContent = 'Marka: Bilgi Yok';
-                }
-
-                if (item.productLink) {
-                    productInfoLinkEl.innerHTML = `<strong>Ürün Linki:</strong> <a href="${item.productLink}" target="_blank" class="text-blue-600 hover:underline">${item.productLink}</a>`;
-                } else {
-                    productInfoLinkEl.textContent = 'Ürün Linki: Bilgi Yok';
-                }
-
-                if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
-                    // item.productPrice şimdi bir sayı (örn. 1600), bu yüzden doğrudan biçimlendir
-                    productInfoPriceEl.textContent = `Ürün Fiyatı: ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(item.productPrice)}`;
-                } else {
-                    productInfoPriceEl.textContent = 'Ürün Fiyatı: Bilgi Yok';
-                }
+                document.getElementById('productInfoBrand').textContent = item.productBrand ? `Marka: ${item.productBrand}` : 'Marka: Bilgi Yok';
+                document.getElementById('productInfoLink').innerHTML = item.productLink ? `<strong>Ürün Linki:</strong> <a href="${item.productLink}" target="_blank" class="text-blue-600 hover:underline">${item.productLink}</a>` : 'Ürün Linki: Bilgi Yok';
+                document.getElementById('productInfoPrice').textContent = item.productPrice ? `Ürün Fiyatı: ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(item.productPrice)}` : 'Ürün Fiyatı: Bilgi Yok';
             }
 
-            // Ürün bilgisi modalını kapat
-            function closeProductInfoModal() {
-                document.getElementById('productInfoModal').style.display = 'none';
-            }
-
-            // Bilgi çıkış modalını kapat (yapay zeka önerileri için)
-            function closeInfoOutputModal() {
-                document.getElementById('info-output-container').classList.add('hidden');
-                document.getElementById('info-output').innerHTML = '';
-            }
-
-            // Arama linkleri modalını göster
             function showSearchLinksModal(productName) {
                 const searchLinksModal = document.getElementById('searchLinksModal');
-                const searchLinksTitle = document.getElementById('searchLinksTitle');
+                document.getElementById('searchLinksTitle').textContent = `'${productName}' için Arama Sonuçları`;
                 const productSearchResults = document.getElementById('productSearchResults');
-
-                searchLinksTitle.textContent = `'${productName}' için Arama Sonuçları`;
-                productSearchResults.innerHTML = ''; // Önceki sonuçları temizle
+                productSearchResults.innerHTML = ''; 
 
                 const encodedProductName = encodeURIComponent(productName);
-
                 const searchPlatforms = [
                     { name: 'Hepsiburada', url: `https://www.hepsiburada.com/ara?q=${encodedProductName}` },
                     { name: 'Trendyol', url: `https://www.trendyol.com/sr?q=${encodedProductName}` },
@@ -1461,62 +1362,25 @@
                     linkElement.textContent = `${platform.name} üzerinde Ara`;
                     productSearchResults.appendChild(linkElement);
                 });
-
                 searchLinksModal.style.display = 'flex';
             }
 
-            // Arama linkleri modalını kapat
-            function closeSearchLinksModal() {
-                document.getElementById('searchLinksModal').style.display = 'none';
-            }
-
-            // Para birimi girişini biçimlendir
             function formatCurrencyInput(event) {
-                let value = event.target.value.replace(/[^0-9]/g, ''); // Tüm sayısal olmayan karakterleri kaldır
+                let value = event.target.value.replace(/[^0-9]/g, ''); 
                 if (value === '') {
                     event.target.value = '';
                     return;
-                }
+                };
                 const numberValue = parseInt(value, 10);
-                if (isNaN(numberValue)) {
-                    event.target.value = ''; // Herhangi bir şekilde sayı değilse temizle
-                    return;
-                }
-                // Türk Lirası olarak biçimlendir
-                event.target.value = new Intl.NumberFormat('tr-TR', { 
-                    style: 'currency', 
-                    currency: 'TRY',
-                    minimumFractionDigits: 0, // Tam sayı girişi için ondalık yok
-                    maximumFractionDigits: 0
-                }).format(numberValue);
+                event.target.value = new Intl.NumberFormat('tr-TR').format(numberValue);
             }
 
-            // Arama girişine göre öğeleri filtrele
-            function filterItems() {
-                const searchValue = document.getElementById('searchInput').value.toLowerCase();
-                const items = document.querySelectorAll('#category-content .product-item');
-
-                items.forEach(item => {
-                    const itemNameElement = item.querySelector('th[data-name]');
-                    
-                    if (itemNameElement) {
-                        const itemName = itemNameElement.dataset.name;
-                        if (itemName.includes(searchValue)) {
-                            item.style.display = '';
-                        } else {
-                            item.style.display = 'none';
-                        }
-                    }
-                });
-            }
-
-            // Satın alınan öğeler modalını göster
             function showPurchasedItemsModal() {
                 const purchasedItemsListUl = document.querySelector('#purchasedItemsList ul');
                 const purchasedTotalPriceEl = document.getElementById('purchased-total-price');
-                purchasedItemsListUl.innerHTML = ''; // Listeyi temizle
+                purchasedItemsListUl.innerHTML = '';
                 let count = 0;
-                let currentPurchasedTotalPrice = 0; // Toplam satın alınan ürün fiyatı
+                let currentPurchasedTotalPrice = 0;
 
                 Object.keys(ceyizData).forEach(category => {
                     ceyizData[category].forEach((item, index) => {
@@ -1532,60 +1396,37 @@
                     });
                 });
 
-                if (count === 0) {
-                    const li = document.createElement('li');
-                    li.textContent = 'Henüz alınmış ürün bulunmamaktadır.';
-                    purchasedItemsListUl.appendChild(li);
-                }
-                purchasedTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(currentPurchasedTotalPrice);
-
+                if (count === 0) purchasedItemsListUl.innerHTML = '<li>Henüz alınmış ürün bulunmamaktadır.</li>';
+                purchasedTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(currentPurchasedTotalPrice);
                 document.getElementById('purchasedItemsModal').style.display = 'flex';
             }
 
-            // Kalan öğeler modalını göster
             function showRemainingItemsModal() {
                 const remainingItemsListUl = document.querySelector('#remainingItemsList ul');
                 const remainingTotalPriceEl = document.getElementById('remaining-total-price');
-                remainingItemsListUl.innerHTML = ''; // Listeyi temizle
+                remainingItemsListUl.innerHTML = '';
                 let count = 0;
-                let currentRemainingTotalPrice = 0; // Toplam kalan ürün fiyatı
+                let currentRemainingTotalPrice = 0; 
 
                 Object.keys(ceyizData).forEach(category => {
                     ceyizData[category].forEach((item, index) => {
-                        if (state[category] && !state[category][index]) {
+                        if (!state[category] || !state[category][index]) {
                             const li = document.createElement('li');
                             li.textContent = `${item.name} (${category} - ${item.cat})`;
                             remainingItemsListUl.appendChild(li);
                             count++;
-                            if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
+                             if (typeof item.productPrice === 'number' && !isNaN(item.productPrice)) {
                                 currentRemainingTotalPrice += item.productPrice;
                             }
                         }
                     });
                 });
 
-                if (count === 0) {
-                    const li = document.createElement('li');
-                    li.textContent = 'Tüm ürünler alınmıştır, tebrikler!';
-                    remainingItemsListUl.appendChild(li);
-                }
-                remainingTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(currentRemainingTotalPrice);
-
-
+                if (count === 0) remainingItemsListUl.innerHTML = '<li>Tüm ürünler alınmıştır, tebrikler!</li>';
+                remainingTotalPriceEl.textContent = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(currentRemainingTotalPrice);
                 document.getElementById('remainingItemsModal').style.display = 'flex';
             }
-
-            // Satın alınan öğeler modalını kapat
-            function closePurchasedItemsModal() {
-                document.getElementById('purchasedItemsModal').style.display = 'none';
-            }
-
-            // Kalan öğeler modalını kapat
-            function closeRemainingItemsModal() {
-                document.getElementById('remainingItemsModal').style.display = 'none';
-            }
-
-            // Genel bilgi/uyarı modalını göster
+            
             function showMessageModal(title, message, callback) {
                 document.getElementById('infoMessageTitle').textContent = title;
                 document.getElementById('infoMessageText').textContent = message;
@@ -1596,330 +1437,188 @@
                 };
             }
 
-            // Tüm öğelerin işaretini kaldır işlevi
             function unmarkAllItems() {
                 Object.keys(state).forEach(category => {
-                    if (state[category]) { // Kategorinin durumda mevcut olup olmadığını kontrol et
-                        Object.keys(state[category]).forEach(index => {
-                            state[category][index] = false;
-                        });
+                    if (state[category]) {
+                        Object.keys(state[category]).forEach(index => state[category][index] = false);
                     }
                 });
-                renderContent(currentCategory); // Onay kutularını ve üstü çizili metni güncellemek için mevcut içeriği yeniden render et
-                updateDashboard(); // Değişiklikleri yansıtmak için gösterge panelini güncelle
+                applyAndRender(); 
+                updateDashboard();
                 showMessageModal('İşaretler Kaldırıldı', 'Tüm ürünlerin işaretleri başarıyla kaldırıldı.', null);
             }
-
-            // --- Yedekleme ve Geri Yükleme Fonksiyonları ---
-
-            // Verileri JSON dosyasına yedekle
+            
             function backupData() {
-                const dataToSave = {
-                    ceyizData: ceyizData,
-                    ceyizState: state,
-                    totalBudget: totalBudget // Bütçe bilgisini de yedekle
-                };
-                const jsonString = JSON.stringify(dataToSave, null, 2);
-                const blob = new Blob([jsonString], { type: 'application/json' });
+                const dataToSave = { ceyizData: ceyizData, ceyizState: state, totalBudget: totalBudget };
+                const blob = new Blob([JSON.stringify(dataToSave, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = 'ceyiz_listesi_yedek.json';
-                document.body.appendChild(a);
                 a.click();
-                document.body.removeChild(a);
                 URL.revokeObjectURL(url);
+                a.remove();
                 showMessageModal('Yedekleme Başarılı', 'Çeyiz listeniz "ceyiz_listesi_yedek.json" olarak indirildi.', null);
             }
 
-            // Verileri JSON dosyasından geri yükle
-            function restoreData() {
-                document.getElementById('restoreFileInput').click(); // Dosya girişini tetikle
-            }
+            document.getElementById('restoreDataBtn').addEventListener('click', () => document.getElementById('restoreFileInput').click());
 
-            // Geri yükleme için dosya seçimini işle
             document.getElementById('restoreFileInput').addEventListener('change', function(event) {
                 const file = event.target.files[0];
-                if (!file) {
-                    return;
-                }
-
+                if (!file) return;
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     try {
                         const loadedData = JSON.parse(e.target.result);
                         if (loadedData.ceyizData && loadedData.ceyizState) {
-                            showConfirmationModal(
-                                'Mevcut verileriniz yedek dosyasındaki verilerle DEĞİŞTİRİLECEKTİR. Emin misiniz?',
-                                () => {
-                                    ceyizData = loadedData.ceyizData;
-                                    state = loadedData.ceyizState;
-                                    // Handle category name change during restore
-                                    if (ceyizData['Genel Ev']) {
-                                        ceyizData['Genel'] = ceyizData['Genel Ev'];
-                                        delete ceyizData['Genel Ev'];
-                                    }
-                                    if (state['Genel Ev']) {
-                                        state['Genel'] = state['Genel Ev'];
-                                        delete state['Genel Ev'];
-                                    }
-
-                                    // Bütçe bilgisini geri yükle
-                                    totalBudget = loadedData.totalBudget !== undefined ? loadedData.totalBudget : 0;
-
-                                    sortCeyizData(); // Yüklenen verileri sırala
-                                    saveData(); // Yüklenen verileri localStorage'a kaydet
-                                    initializeState(); // Tutarlılık için durumu yeniden başlat
-                                    renderTabs();
-                                    // Önceki kategori artık yoksa currentCategory'yi ilk kategoriye ayarla
-                                    if (!Object.keys(ceyizData).includes(currentCategory)) {
-                                        currentCategory = Object.keys(ceyizData)[0] || null;
-                                    }
-                                    if (currentCategory) {
-                                        renderContent(currentCategory);
-                                    } else {
-                                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
-                                    }
-                                    updateDashboard();
-                                    showMessageModal('Yedekleme Yüklendi', 'Çeyiz listeniz yedek dosyasından başarıyla yüklendi.', null);
-                                }
-                            );
+                            showConfirmationModal('Mevcut verileriniz DEĞİŞTİRİLECEKTİR. Emin misiniz?', () => {
+                                ceyizData = loadedData.ceyizData;
+                                state = loadedData.ceyizState;
+                                totalBudget = loadedData.totalBudget !== undefined ? loadedData.totalBudget : 0;
+                                
+                                sortCeyizData();
+                                saveData(); 
+                                initializeState();
+                                renderTabs();
+                                currentCategory = Object.keys(ceyizData)[0] || null;
+                                applyAndRender();
+                                updateDashboard();
+                                showMessageModal('Yedekleme Yüklendi', 'Çeyiz listeniz başarıyla yüklendi.', null);
+                            });
                         } else {
-                            showMessageModal('Yükleme Hatası', 'Seçilen dosya geçerli bir çeyiz listesi yedek dosyası değil.', null);
+                            showMessageModal('Yükleme Hatası', 'Dosya geçerli bir yedek dosyası değil.', null);
                         }
                     } catch (error) {
-                        showMessageModal('Yükleme Hatası', `Dosya okunamadı veya biçim hatası var: ${error.message}`, null);
+                        showMessageModal('Yükleme Hatası', `Dosya okunamadı: ${error.message}`, null);
                     }
                 };
                 reader.readAsText(file);
-                // Aynı dosya seçilirse "change" olayının tekrar tetiklenmesine izin vermek için dosya giriş değerini temizle
                 event.target.value = '';
             });
 
-            // Yeni bir kategori ekleme işlevi
             document.getElementById('add-category-btn').addEventListener('click', () => {
-                showConfirmationModal('Yeni bir kategori eklemek istediğinizden emin misiniz? Bir ürün ekleyerek de yeni kategori oluşturabilirsiniz.', () => {
+                showConfirmationModal('Yeni bir kategori eklemek istediğinizden emin misiniz?', () => {
                     const newCategoryName = prompt('Lütfen yeni kategori adını girin:');
                     if (newCategoryName && newCategoryName.trim() !== '') {
-                        const categoryExists = Object.keys(ceyizData).some(cat => cat.toLowerCase() === newCategoryName.trim().toLowerCase());
-                        if (categoryExists) {
+                        if (Object.keys(ceyizData).some(cat => cat.toLowerCase() === newCategoryName.trim().toLowerCase())) {
                             showMessageModal('Hata', 'Bu kategori zaten mevcut.', null);
                         } else {
                             ceyizData[newCategoryName.trim()] = [];
-                            state[newCategoryName.trim()] = {}; // Yeni kategori için durumu başlat
-                            currentCategory = newCategoryName.trim(); // Yeni eklenen kategoriye geç
+                            state[newCategoryName.trim()] = {}; 
+                            currentCategory = newCategoryName.trim();
                             sortCeyizData();
                             renderTabs();
-                            renderContent(currentCategory);
+                            applyAndRender();
                             updateDashboard();
-                            showMessageModal('Başarılı', `'${newCategoryName.trim()}' kategorisi başarıyla eklendi.`, null);
+                            showMessageModal('Başarılı', `'${newCategoryName.trim()}' kategorisi eklendi.`, null);
                         }
-                    } else if (newCategoryName !== null) { // Kullanıcı iptal ettiyse veya boş dize girdiyse
-                        showMessageModal('Bilgi', 'Kategori ekleme iptal edildi.', null);
                     }
                 });
             });
 
-            // Mevcut kategoriyi silme işlevi
             document.getElementById('delete-category-btn').addEventListener('click', () => {
-                if (!currentCategory) {
-                    showMessageModal('Hata', 'Silinecek bir kategori seçili değil.', null);
+                if (!currentCategory || Object.keys(ceyizData).length <= 1) {
+                    showMessageModal('Hata', 'Silinecek bir kategori seçili değil veya bu son kategori.', null);
                     return;
                 }
-                if (Object.keys(ceyizData).length === 1) {
-                    showMessageModal('Hata', 'Son kategoriyi silemezsiniz. En az bir kategori bulunmalıdır.', null);
-                    return;
-                }
-
-                showConfirmationModal(`'${currentCategory}' kategorisini ve içerdiği tüm ürünleri silmek istediğinizden emin misiniz? Bu işlem geri alınamaz.`, () => {
+                showConfirmationModal(`'${currentCategory}' kategorisini ve tüm içeriğini silmek istediğinizden emin misiniz?`, () => {
                     delete ceyizData[currentCategory];
-                    delete state[currentCategory]; // Kaldırılan kategori için durumu da sil
-
-                    const categories = Object.keys(ceyizData);
-                    if (categories.length > 0) {
-                        currentCategory = categories[0]; // İlk mevcut kategoriye geç
-                    } else {
-                        currentCategory = null; // Hiç kategori kalmadı
-                    }
-
-                    sortCeyizData();
+                    delete state[currentCategory];
+                    currentCategory = Object.keys(ceyizData)[0]; 
                     renderTabs();
-                    if (currentCategory) {
-                        renderContent(currentCategory);
-                    } else {
-                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
-                    }
+                    applyAndRender();
                     updateDashboard();
-                    showMessageModal('Başarılı', 'Kategori ve içerdiği tüm ürünler başarıyla silindi.', null);
+                    showMessageModal('Başarılı', 'Kategori silindi.', null);
                 });
             });
-
-            // Bütçe Ayarları Modalını Aç
+            
             function openBudgetSettingsModal() {
-                document.getElementById('totalBudget').value = totalBudget > 0 ? new Intl.NumberFormat('tr-TR', { minimumFractionDigits: 0, maximumFractionDigits: 0 }).format(totalBudget) : '';
+                document.getElementById('totalBudget').value = totalBudget > 0 ? new Intl.NumberFormat('tr-TR').format(totalBudget) : '';
                 document.getElementById('budgetSettingsModal').style.display = 'flex';
             }
 
-            // Bütçe Ayarları Modalını Kapat
-            function closeBudgetSettingsModal() {
-                document.getElementById('budgetSettingsModal').style.display = 'none';
-            }
-
-            // Bütçe Ayarları Form Gönderimi
             document.getElementById('budgetSettingsForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                let budgetValue = document.getElementById('totalBudget').value.trim();
-                budgetValue = budgetValue.replace(/[^0-9]/g, ''); // Sayısal olmayan karakterleri kaldır
-                totalBudget = budgetValue === '' ? 0 : parseFloat(budgetValue);
-                
+                let budgetValue = document.getElementById('totalBudget').value.trim().replace(/[^0-9]/g, '');
+                totalBudget = budgetValue ? parseFloat(budgetValue) : 0;
                 saveData();
                 updateDashboard();
-                closeBudgetSettingsModal();
-                showMessageModal('Bütçe Kaydedildi', `Toplam bütçeniz ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY', minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(totalBudget)} olarak ayarlandı.`, null);
+                document.getElementById('budgetSettingsModal').style.display = 'none';
+                showMessageModal('Bütçe Kaydedildi', `Toplam bütçeniz ${new Intl.NumberFormat('tr-TR', { style: 'currency', currency: 'TRY' }).format(totalBudget)} olarak ayarlandı.`, null);
             });
-
-            // --- Liste Paylaşımı (Link) Fonksiyonları ---
-
-            // Paylaşım modalını aç ve paylaşılabilir linki oluştur
+            
             function openShareListModal() {
-                const listData = {
-                    ceyizData: ceyizData,
-                    ceyizState: state
-                };
-                const jsonString = JSON.stringify(listData);
-                // JSON verilerini Base64 encode et
-                const encodedData = btoa(unescape(encodeURIComponent(jsonString))); 
-                
-                // Mevcut URL'yi al ve üzerine `data` parametresi ekle
-                const shareableLink = `${window.location.origin}${window.location.pathname}?data=${encodedData}`;
-
-                document.getElementById('shareableLinkInput').value = shareableLink;
-                
-                // QR kodu oluşturma kodu kaldırıldı
-
+                const listData = { ceyizData: ceyizData, ceyizState: state };
+                const encodedData = btoa(unescape(encodeURIComponent(JSON.stringify(listData)))); 
+                document.getElementById('shareableLinkInput').value = `${window.location.origin}${window.location.pathname}?data=${encodedData}`;
                 document.getElementById('shareListModal').style.display = 'flex';
             }
-
-            // Paylaşım modalını kapat
-            function closeShareListModal() {
-                document.getElementById('shareListModal').style.display = 'none';
-            }
-
-            // Paylaşılabilir linki panoya kopyala
+            
             document.getElementById('copyLinkBtn').addEventListener('click', () => {
                 const shareableLinkInput = document.getElementById('shareableLinkInput');
                 shareableLinkInput.select();
-                document.execCommand('copy'); // navigator.clipboard.writeText iFrame'lerde çalışmayabilir
+                document.execCommand('copy');
                 showMessageModal('Kopyalandı', 'Liste linki panoya kopyalandı!', null);
             });
 
-            // QR kodunu indir fonksiyonu kaldırıldı
-
-            // URL'deki `data` parametresini kontrol et ve verileri yükle
             function loadDataFromURL() {
                 const urlParams = new URLSearchParams(window.location.search);
                 const encodedData = urlParams.get('data');
                 if (encodedData) {
                     try {
-                        const decodedString = decodeURIComponent(escape(atob(encodedData))); // Base64 decode
-                        const loadedData = JSON.parse(decodedString);
+                        const loadedData = JSON.parse(decodeURIComponent(escape(atob(encodedData))));
                         if (loadedData.ceyizData && loadedData.ceyizState) {
-                            showConfirmationModal(
-                                'URL\'den bir çeyiz listesi yüklenecek. Mevcut verileriniz DEĞİŞTİRİLECEKTİR. Emin misiniz?',
-                                () => {
-                                    ceyizData = loadedData.ceyizData;
-                                    state = loadedData.ceyizState;
-                                    // Handle category name change during load
-                                    if (ceyizData['Genel Ev']) {
-                                        ceyizData['Genel'] = ceyizData['Genel Ev'];
-                                        delete ceyizData['Genel Ev'];
-                                    }
-                                    if (state['Genel Ev']) {
-                                        state['Genel'] = state['Genel Ev'];
-                                        delete state['Genel Ev'];
-                                    }
-
-                                    // Bütçe bilgisini de URL'den yüklenen veriye dahil edilebilir
-                                    // Şimdilik sadece kaydedilmiş localStorage bütçesini tutuyoruz
-                                    // Eğer URL'den bütçe de geliyorsa: totalBudget = loadedData.totalBudget !== undefined ? loadedData.totalBudget : totalBudget;
-                                    
-                                    sortCeyizData();
-                                    saveData(); // Yüklenen verileri localStorage'a kaydet
-                                    initializeState(); // Tutarlılık için durumu yeniden başlat
-                                    renderTabs();
-                                    if (!Object.keys(ceyizData).includes(currentCategory)) {
-                                        currentCategory = Object.keys(ceyizData)[0] || null;
-                                    }
-                                    if (currentCategory) {
-                                        renderContent(currentCategory);
-                                    } else {
-                                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
-                                    }
-                                    updateDashboard();
-                                    showMessageModal('Liste Yüklendi', 'Çeyiz listeniz paylaşılan linkten başarıyla yüklendi.', null);
-                                    // URL'deki veri parametresini temizle
-                                    history.pushState({}, '', window.location.pathname);
-                                }
-                            );
-                        } else {
-                            showMessageModal('Yükleme Hatası', 'URL\'den alınan veri geçerli bir çeyiz listesi formatında değil.', null);
+                            showConfirmationModal('Paylaşılan bir liste yüklenecek. Mevcut verileriniz değişebilir. Onaylıyor musunuz?', () => {
+                                ceyizData = loadedData.ceyizData;
+                                state = loadedData.ceyizState;
+                                sortCeyizData();
+                                saveData();
+                                initializeState();
+                                renderTabs();
+                                currentCategory = Object.keys(ceyizData)[0] || null;
+                                applyAndRender();
+                                updateDashboard();
+                                showMessageModal('Liste Yüklendi', 'Çeyiz listeniz linkten başarıyla yüklendi.', null);
+                                history.pushState({}, '', window.location.pathname);
+                            });
                         }
                     } catch (error) {
-                        showMessageModal('Yükleme Hatası', `URL verisi okunamadı veya biçim hatası var: ${error.message}`, null);
-                        // URL'deki veri parametresini temizle
+                        showMessageModal('Yükleme Hatası', `URL verisi okunamadı: ${error.message}`, null);
                         history.pushState({}, '', window.location.pathname);
                     }
                 }
             }
 
 
-            // İlk kurulum işlevi
             function init() {
                 initializeState();
-                sortCeyizData(); // İlk yüklemede verileri sırala
-                // URL'den veri yüklemeyi dene, eğer yoksa normal şekilde devam et
+                sortCeyizData();
                 loadDataFromURL(); 
                 
                 renderTabs();
-                // ceyizData yüklendikten sonra currentCategory'nin geçerli olduğundan emin ol
                 if (!Object.keys(ceyizData).includes(currentCategory)) {
                     currentCategory = Object.keys(ceyizData)[0] || null;
-                    if (currentCategory) {
-                        renderContent(currentCategory);
-                    } else {
-                        // Geri yükleme sonrası ceyizData boşsa durumu işle
-                        categoryContentContainer.innerHTML = '<p class="text-center text-gray-600">Henüz hiç ürün eklenmedi. Yeni ürün eklemek için "+ Yeni Ürün Ekle" düğmesini kullanın.</p>';
-                    }
-                } else {
-                    renderContent(currentCategory);
                 }
+                applyAndRender();
                 updateDashboard();
-
-                // Para birimi girişini biçimlendirmek için olay dinleyicileri ekle
+                
                 document.getElementById('newProductPrice').addEventListener('input', formatCurrencyInput);
                 document.getElementById('editProductPrice').addEventListener('input', formatCurrencyInput);
-                document.getElementById('totalBudget').addEventListener('input', formatCurrencyInput); // Yeni: Bütçe girişi için
-
-                // Arama girişi için olay dinleyicisi ekle
-                document.getElementById('searchInput').addEventListener('input', filterItems);
-
-                // Gösterge panelindeki "Alınan" ve "Kalan" öğeler için tıklama olay dinleyicileri ekle
+                document.getElementById('totalBudget').addEventListener('input', formatCurrencyInput);
+                document.getElementById('apply-filters-btn').addEventListener('click', applyAndRender);
+                document.getElementById('clear-filters-btn').addEventListener('click', clearFiltersAndRender);
+                document.getElementById('searchInput').addEventListener('input', applyAndRender);
                 document.getElementById('purchased-items').addEventListener('click', showPurchasedItemsModal);
                 document.getElementById('remaining-items').addEventListener('click', showRemainingItemsModal);
-                document.getElementById('set-budget-btn').addEventListener('click', openBudgetSettingsModal); // Yeni: Bütçe belirleme düğmesi
-
-                // Modal kapatma düğmeleri ekle
-                document.getElementById('closePurchasedItemsModalBtn').addEventListener('click', closePurchasedItemsModal);
-                document.getElementById('closeRemainingItemsModalBtn').addEventListener('click', closeRemainingItemsModal);
-                document.getElementById('closeBudgetSettingsModalBtn').addEventListener('click', closeBudgetSettingsModal); // Yeni: Bütçe ayarları modalı kapatma
-                
-                // Yedekleme ve geri yükleme düğmeleri için olay dinleyicileri ekle
+                document.getElementById('set-budget-btn').addEventListener('click', openBudgetSettingsModal);
                 document.getElementById('backupDataBtn').addEventListener('click', backupData);
-                document.getElementById('restoreDataBtn').addEventListener('click', restoreData);
-
-                // Paylaşım düğmesi için olay dinleyicisi ekle
                 document.getElementById('shareListBtn').addEventListener('click', openShareListModal);
-                document.getElementById('closeShareListModalBtn').addEventListener('click', closeShareListModal);
+                
+                 document.querySelectorAll('.modal .close-button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.target.closest('.modal').style.display = 'none';
+                    });
+                });
             }
 
             init();
